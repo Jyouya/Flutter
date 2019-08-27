@@ -1,0 +1,28 @@
+{
+  "name": "working-title",
+  "version": "0.1.0",
+  "description": "Social media emoji feed",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jyouya/Working-Title.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jyouya/Working-Title/issues"
+  },
+  "homepage": "https://github.com/Jyouya/Working-Title#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sequelize": "^5.16.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
+  }
+}
