@@ -73,7 +73,7 @@ a[active] {
 }
 
 .fine-text {
-    font-size: 0.7em;
+    font-size: 0.8em;
     color: var(--white);
     opacity: 0.5;
 }
@@ -120,10 +120,8 @@ a[active] {
 .poster-information {
     display: flex;
     flex-flow: row nowrap;
-    align-items: flex-end;
+    align-items: center;
 }
-
-
 
 .poster-information .date {
     flex-grow: 1; /* Pushes dropdown button to right */
@@ -142,6 +140,5 @@ nav { position: relative; }
     right: 32px;
     display: flex;
     flex-flow: column nowrap;
-    align-items: flex-end;
+    align-items: flex-start;
 }
-
