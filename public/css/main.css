@@ -133,10 +133,6 @@ a[active] {
     flex-grow: 1; /* Pushes dropdown button to right */
 }
 
-.new-post-container {
-    
-}
-
 /* Navigation */
 nav { position: relative; }
 
@@ -148,8 +144,6 @@ nav { position: relative; }
     flex-flow: column nowrap;
     align-items: flex-start;
 }
-
-.nav-svg {}
 
 [active] svg path {
     fill: var(--bright-1);

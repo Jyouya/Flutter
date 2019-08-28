@@ -4,5 +4,9 @@ module.exports = app => {
     app.get("/", function (req, res) {
         res.sendFile(path.join(__dirname, "../public/home.html"));
     });
+
+    app.get("/account", function (req, res) {
+        res.sendFile(path.join(__dirname, "../public/account.html"));
+    });
 }
 
