@@ -1,3 +1,4 @@
+'use strict';
 const uuid = require('uuid/v4');
 module.exports = function(sequelize, DataTypes) {
     const Token = sequelize.define('Token', {

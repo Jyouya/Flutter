@@ -22,12 +22,20 @@ module.exports = function(sequelize, DataTypes) {
         salt: {
             type: DataTypes.BLOB(256),
             allowNull: false
+        },
+        email: {
+            type: DataTypes.STRING,
+            isEmail: true
         }
+
     });
 
     User.associate = function(models) {
         // User.hasMany(models.Post); // posts aren't created yet
         User.hasMany(models.Token);
+        User.hasMany(models.Post);
+        User.hasMany(models.Reply);
+        User.hasMany(models.Like);
     };
 
     return User;
