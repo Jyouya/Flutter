@@ -1,13 +1,18 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
+  Post.sync({ force: true }).then(() => {
     const Post = sequelize.define("Post", {
-      // Giving the Author model a name of type STRING
-      cotent: DataTypes.STRING,
-      user:
-      timestamp:
-      id:
+      cotent: DataTypes.TEXT,
+      timestamps: true,
+      id: { type: Sequelize.INTEGER, autoIncrement: true }
     });
-  
-    Post.associate = function(models) {Post.belongsTo(models.User)};
-  
-    return Post;
-  };
+
+    Post.associate = function (models) {
+      Post.belongsTo(models.User, {
+        foreignKey: {
+          allowNull: false
+        }
+      })
+    };
+      return Post;
+  })
+};

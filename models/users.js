@@ -1,10 +1,13 @@
-module.exports = function(sequelize, DataTypes) {
-    var User = sequelize.define("User", {
-      // Giving the Author model a name of type STRING
+module.exports = function (sequelize, DataTypes) {
+  User.sync({ force: true }).then(() => {
+    const User = sequelize.define("User", {
       name: DataTypes.STRING,
-      id:
-      email:
+      id: { type: Sequelize.INTEGER, autoIncrement: true },
+      email: {
+        type: DataTypes.STRING,
+        validate: { isEmail: true }
+      }
     });
-  
-    return User;
-  };
+      return User;
+  })
+};
