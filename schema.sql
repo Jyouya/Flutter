@@ -1,3 +1,1 @@
-CREATE DATABASE Flutter;
-
-SHOW TABLES FROM Flutter;
+CREATE DATABASE "flutter";
