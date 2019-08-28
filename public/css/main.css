@@ -22,6 +22,15 @@ body {
     background-color: var(--dark-1);
 }
 
+a {
+    color: var(--white);
+    text-decoration: none;
+}
+
+a[active] {
+    color: var(--bright-1);
+}
+
 .bd-right { border-right: 1px solid var(--bright-2); }
 .bd-left { border-left: 1px solid var(--bright-2); }
 .bd-bottom { border-bottom: 1px solid var(--bright-2); }
@@ -39,6 +48,12 @@ body {
 .pl-4 { padding-left: 32px; }
 .pl-5 { padding-left: 40px; }
 
+.pt-1 { padding-top: 8px; }
+.pt-2 { padding-top: 16px; }
+.pt-3 { padding-top: 24px; }
+.pt-4 { padding-top: 32px; }
+.pt-5 { padding-top: 40px; }
+
 .ml-1{ margin-left: 8px; }
 .ml-2{ margin-left: 16px; }
 .ml-3{ margin-left: 24px; }
@@ -51,8 +66,10 @@ body {
 .mb-4{ margin-bottom: 32px; }
 .mb-5{ margin-bottom: 40px; }
 
-.cursor-pointer {
-    cursor: pointer;
+.title-text {
+    font-weight: 900;
+    letter-spacing: 1px;
+    font-size: 1.6em;
 }
 
 .fine-text {
@@ -64,6 +81,10 @@ body {
 .bold-text {
     font-weight: bold;
     font-size: 1.2em;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 
 .hover-fade {
@@ -104,13 +125,6 @@ body {
 
 
 
-/* Specific Styles */
-.page-title {
-    font-weight: 900;
-    letter-spacing: 1px;
-    font-size: 1.6em;
-}
-
 .poster-information .date {
     flex-grow: 1; /* Pushes dropdown button to right */
 }
@@ -118,3 +132,16 @@ body {
 .new-post-container {
     
 }
+
+/* Navigation */
+nav { position: relative; }
+
+.nav-list {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+}
+

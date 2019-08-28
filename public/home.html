@@ -16,11 +16,17 @@
 
 <body>
     <div class="layout-container">
-        <nav class="col-left bd-right">
-
+        <nav class="col-left bd-right p-4">
+            <div class="nav-list">
+                <a href="#" class="nav-item bold-text mb-3" active>Home</a>
+                <a href="#" class="nav-item bold-text mb-3">Options</a>
+                <a href="#" class="nav-item bold-text mb-3">My Account</a>
+                <a href="#" class="nav-item bold-text mb-3">Log Out</a>
+                <a href="#" class="nav-item bold-text mb-3">New Post</a>
+            </div>
         </nav>
         <main class="col-middle">
-            <div class="page-title p-3 bd-bottom">Home</div>
+            <div class="title-text bd-bottom p-3">Home</div>
             <div class="new-post-container p-3 bd-bottom hover-fade">
                 <div class="avatar-container">
                     <img src="" alt="Your Avatar" onerror="this.src='/images/blank-avatar.jpg';" />
@@ -29,7 +35,7 @@
             
             <div class="posts" id="posts">
                 <!-- A post example -->
-                <div class="post p-3 bd-bottom">
+                <div class="post bd-bottom hover-fade p-3">
                     <div class="avatar-container">
                         <img src="" alt="Your Avatar" onerror="this.src='/images/blank-avatar.jpg';" />
                     </div>
