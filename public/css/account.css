@@ -1,5 +1,54 @@
+:root {
+    --white: #FFFFFF;
+    --dark-1: #2A102B;
+    --dark-2: #3B193C;
+    --bright-1: #C743A8;
+    --bright-2: #63376B;
+}
+
 .page-title {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+}
+
+.banner-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.user-info-container {
+    position: relative;
+    top: -90px;
+    margin-bottom: -90px;
+}
+
+.profile-switch-view {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 60px;
+}
+
+.switch-view-button {
+    width: 100%;
+    height: 100%;
+    color: unset;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid var(--bright-1);
+    background: none;
+}
+
+.switch-view-button:hover {
+    background-color: rgba(199, 67, 168, 0.185);
+}
+
+.switch-view-button[active] {
+    background-color: #C743A8;
+}
+
+.switch-view-button:focus {
+    outline: none;
 }
