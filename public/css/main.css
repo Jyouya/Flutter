@@ -31,6 +31,34 @@ a[active] {
     color: var(--bright-1);
 }
 
+.button {
+    padding: 12px 24px;
+    border-radius: 60px;
+    background-color: unset;
+    color: var(--bright-2);
+    border: 1px solid var(--bright-2);
+    text-transform: uppercase;
+    font: unset;
+    font-weight: 900;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: var(--bright-1);
+    color: var(--white);
+    border: 1px solid var(--bright-1);
+}
+
+.button:focus { outline: none; }
+
+input, textarea { cursor: text; }
+textarea { resize: none; }
+
+.no-scrollbar::-webkit-scrollbar { width: 0 !important }
+.no-scrollbar { overflow: -moz-scrollbars-none; }
+.no-scrollbar { -ms-overflow-style: none; }
+
 .bd-right { border-right: 1px solid var(--bright-2); }
 .bd-left { border-left: 1px solid var(--bright-2); }
 .bd-bottom { border-bottom: 1px solid var(--bright-2); }

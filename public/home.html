@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 
 <body>
@@ -71,6 +72,10 @@
                 <div class="avatar-container">
                     <img src="" alt="Your Avatar" onerror="this.src='/images/blank-avatar.jpg';" />
                 </div>
+                <div class="new-post-data-container pl-3">
+                    <textarea type="text" placeholder="Anything on your mind?" class="new-post-input-field no-scrollbar mb-2"></textarea>
+                    <button class="button" id="submit-post-button" disabled>Submit</button>
+                </div>
             </div>
 
             <div class="posts" id="posts">
@@ -120,7 +125,7 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
+    <script src="/js/home.js"></script>
 </body>
 
 </html>

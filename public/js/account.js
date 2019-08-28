@@ -1,5 +1,3 @@
-console.log("Hello world!");
-
 $(document).ready(() => {
     // Global Flags
     let view = null;
