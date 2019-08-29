@@ -1,13 +1,16 @@
-// set up plain http server
-const http = express.createServer();
+const express = require('express')
+const fs = require('fs')
+const https = require('https')
+const app = express()
 
-// set up a route to redirect http to https
-http.get('*', function(req, res) {  
-    res.redirect('https://' + req.headers.host + req.url);
-
-    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
-    // res.redirect('https://example.com' + req.url);
+app.get('/', function (req, res) {
+  res.send('Working Title')
 })
 
-// have it listen on 8080
-http.listen(8080);
+https.createServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+}, app)
+.listen(3000, function () {
+  console.log('Example app listening on port 3000! Go to https://localhost:3000/')
+})
