@@ -15,6 +15,14 @@
     grid-template-columns: 1fr 672px 1fr;
 }
 
+.col-left, .col-right {
+    overflow: hidden;
+} 
+
+.col-right * {
+    max-width: 480px;
+}
+
 /* General & Global Styling */
 body {
     font-family: 'Nunito Sans', sans-serif;
@@ -62,7 +70,10 @@ textarea { resize: none; }
 .bd-right { border-right: 1px solid var(--bright-2); }
 .bd-left { border-left: 1px solid var(--bright-2); }
 .bd-bottom { border-bottom: 1px solid var(--bright-2); }
+.bd-top { border-top: 1px solid var(--bright-2); }
 .bd { border: 1px solid var(--bright-2); }
+
+.rounded-1 { border-radius: 4px; }
 
 .p-1 { padding: 8px; }
 .p-2 { padding: 16px; }
@@ -205,4 +216,8 @@ nav { position: relative; }
 
 [active] svg path {
     fill: var(--bright-1);
+}
+
+.who-to-follow {
+    overflow: hidden;
 }
