@@ -27,12 +27,12 @@
         </a>
     </nav>
     <div class="form-center">
-        <form action="/api/accounts" method="POST" class="p-3 bd">
-            <label class="text-fine mb-1" for="uname"><b>Emoji Name</b></label>
-            <input id="username-input" class="mb-2" type="text" placeholder="Username" name="uname" required>
+        <form action="/api/accounts" method="GET" class="p-3 bd">
+            <label class="text-fine mb-1" for="username"><b>Emoji Name</b></label>
+            <input id="username-input" class="mb-2" type="text" placeholder="Username" name="username" required>
 
-            <label class="text-fine mb-1" for="psw"><b>Password</b></label>
-            <input id="password-input" class="mb-3" type="password" placeholder="Enter Password" name="psw" required>
+            <label class="text-fine mb-1" for="password"><b>Password</b></label>
+            <input id="password-input" class="mb-3" type="password" placeholder="Enter Password" name="password" required>
 
             <button class="button" type="submit">Login</button>
         </form>
