@@ -20,4 +20,15 @@ https.createServer({
 }, app)
 .listen(PORT, function () {
   console.log('Example app listening on port ' + PORT + '! Go to https://localhost:' + PORT)
-})
+});
+
+if (process.env.NODE_ENV !== 'test') {
+    models.sequelize.sync().then(() => {
+        app.listen(PORT, function () {
+            console.log('App listening on PORT ' + PORT);
+        });
+    });
+
+}
+
+module.exports = app; // for testing
