@@ -21,10 +21,14 @@ require('./routes/html-routes')(app);
 
 // Starts the server to begin listening
 // =============================================================
-models.sequelize.sync().then(() => {
-    app.listen(PORT, function () {
-        console.log('App listening on PORT ' + PORT);
+if (process.env.NODE_ENV !== 'test') {
+    models.sequelize.sync().then(() => {
+        app.listen(PORT, function () {
+            console.log('App listening on PORT ' + PORT);
+        });
     });
-})
+
+}
+
 
 module.exports = app; // for testing

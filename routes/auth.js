@@ -36,7 +36,7 @@ module.exports = function (app, db) {
                 process.env.JWT_SECRET
             ));
         } catch (err) {
-            res.json({ msg: 'Account could not be created.  Please try again later.' });
+            res.json({ msg: 'Login failed.  Please try again later.' });
         }
 
         // TODO: When issuing a new token to a user, delete all of their expired tokens from the database
@@ -83,7 +83,6 @@ module.exports = function (app, db) {
                 email: email
             }
         });
-        // console.log(user);
         const salt = await randomBytesP(256);
 
         if (!user) {
@@ -100,7 +99,6 @@ module.exports = function (app, db) {
     return async function verify(token, req) {
         // Throws error if token wasn't signed by us.
         const decoded = await jwtVerifyP(token, process.env.JWT_SECRET);
-        console.log(decoded);
 
         // Throw an error if the token is not issued to the client making the request.
         if (decoded.ip != requestIp.getClientIp(req)) throw "Authentication Failed";
@@ -135,9 +133,7 @@ module.exports = function (app, db) {
                 where: {
                     id: dbToken.id
                 }
-            })
-            console.log(token);
-            console.log('last update: ', token.updatedAt); // Need to verify that the empty object causes the updatedAt property to update
+            });
         });
 
         return {
