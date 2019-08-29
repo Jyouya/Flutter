@@ -2,14 +2,17 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Replies', {
-      id: {
+      replyID: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       content: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        validate: {
+          is: emojiRegex
+        }
       },
       createdAt: {
         allowNull: false,

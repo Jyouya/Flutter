@@ -2,7 +2,7 @@ const emojiRegex = require('../emoji-validation-regex');
 const uuid = require('uuid/v4');
 module.exports = function(sequelize, DataTypes) {
     const User = sequelize.define('User', {
-        id: {
+        userID: {
             allowNull: false,
             primaryKey: true,
             type: DataTypes.UUID,
