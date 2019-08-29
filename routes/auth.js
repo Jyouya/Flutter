@@ -6,11 +6,14 @@ const jwt = require('jsonwebtoken');
 const jwtSignP = promisify(jwt.sign);
 const jwtVerifyP = promisify(jwt.verify);
 const requestIp = require('request-ip');
+const Op = require('sequelize').Op;
 
 const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z]).{8,}/;
 
-module.exports = function (app, db) {
-    app.post('/api/login', async function (req, res) {
+module.exports = function (app, db, authorizer) {
+
+    authorizer.register('/login', ['default'], ['GET','POST'])
+    app.post('/login', async function (req, res) {
         const user = await authenticate(req.body.email, req.body.password);
         if (!user) {
             res.status(401).json({ msg: 'Email or Password is incorrect' });
@@ -22,11 +25,17 @@ module.exports = function (app, db) {
         const { id: tokenId } = await db.Token.create({
             UserId: id
         });
-
-
-
         try {
-            res.json(await jwtSignP(
+            // res.json(await jwtSignP(
+            //     {
+            //         userId: id,
+            //         tokenId: tokenId,
+            //         type: user.type,
+            //         ip: requestIp.getClientIp(req)
+            //     },
+            //     process.env.JWT_SECRET
+            // ));
+            res.cookie('jwt', await jwtSignP(
                 {
                     userId: id,
                     tokenId: tokenId,
@@ -34,28 +43,37 @@ module.exports = function (app, db) {
                     ip: requestIp.getClientIp(req)
                 },
                 process.env.JWT_SECRET
-            ));
+            )).send();
         } catch (err) {
-            res.json({ msg: 'Login failed.  Please try again later.' });
+            console.log(err);
+            res.json(err);
+            // res.json({ msg: 'Login failed.  Please try again later.' });
         }
 
         // TODO: When issuing a new token to a user, delete all of their expired tokens from the database
     });
 
+    authorizer.register('/api/users', ['default', 'admin'], ['POST']); // Allow users with no permissions to register.  Prevent normal users from creating an account while logged in.
     app.post('/api/users', async function (req, res) {
         let user;
         try {
-            user = await await db.User.findOne({
+            user = await db.User.findOne({
                 where: {
-                    email: req.body.email
+                    [Op.or]: [
+                        { email: req.body.email },
+                        { username: req.body.username }
+                    ]
                 }
             });
         } catch (err) {
-            res.json({ msg: 'Must provide an email address' });
+            res.json({ msg: 'Must provide an email address and username' });
+            return;
         }
 
-        if (user) {
+        if (user && user.email == req.body.email) {
             res.json({ msg: 'An account with that email already exists' });
+        } else if (user && user.username == req.body.username) {
+            res.json({ msg: 'An account with that username already exists' })
         } else {
             try {
                 if (!passwordRegExp.exec(req.body.password)) throw 'Password must be at least 8 characters and contain an upper and lowercase letter'
@@ -77,11 +95,13 @@ module.exports = function (app, db) {
             }
         }
     });
+
     async function authenticate(email = "", password = "") {
         const user = await db.User.findOne({
             where: {
                 email: email
             }
+
         });
         const salt = await randomBytesP(256);
 

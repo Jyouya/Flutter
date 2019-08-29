@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 describe('Authorization', () => {
     // Empty the database
     before((done) => {
-        db.sequelize.sync({force: true}).then(() => {
+        db.sequelize.sync({ force: true }).then(() => {
             server.listen(PORT);
         }).then(done)
     });
@@ -35,13 +35,49 @@ describe('Authorization', () => {
                 });
         });
 
+        it('it should prevent creation of an account with a duplicate username', (done) => {
+            const newUser = {
+                username: "🤠",
+                password: "qwertyasdF",
+                email: "emoji@cowboy.hat"
+            };
+            chai.request(server)
+                .post('/api/users')
+                .send(newUser)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('msg').eql('An account with that username already exists');
+                    done();
+                });
+        });
+
+        it('it should prevent creation of an account with a duplicate email', (done) => {
+            const newUser = {
+                username: "🤒",
+                password: "zxcvbnmYUIOP",
+                email: "cowboy@hat.emoji"
+            };
+            chai.request(server)
+                .post('/api/users')
+                .send(newUser)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('msg').eql('An account with that email already exists');
+                    done();
+                });
+        });
+    });
+
+    describe('Login to Account', () => {
         it('it should fail to login with an incorrect password', (done) => {
             const credentials = {
                 email: "cowboy@hat.emoji",
                 password: "AsDfQwErTy"
             };
             chai.request(server)
-                .post('/api/login')
+                .post('/login')
                 .send(credentials)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -51,6 +87,7 @@ describe('Authorization', () => {
                 });
         });
 
+
         let token;
         it('it should be able to login to the account with the right password', (done) => {
             const credentials = {
@@ -58,7 +95,7 @@ describe('Authorization', () => {
                 password: "Asdfqwerty",
             };
             chai.request(server)
-                .post('/api/login')
+                .post('/login')
                 .send(credentials)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -71,7 +108,7 @@ describe('Authorization', () => {
         it('it should authenticate the user with the jwt', (done) => {
             chai.request(server)
                 .post('/api/authtest')
-                .send({jwt: token})
+                .send({ jwt: token })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an('object');

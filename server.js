@@ -2,7 +2,9 @@ require('dotenv').config(); // Load keys for crytpo
 
 const models = require('./models');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const path = require('path');
+const authorizer = require('./middleware/authorizer');
 
 const PORT = process.env.PORT || 8080;
 
@@ -10,14 +12,17 @@ const app = express();
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
+
+app.use(authorizer.mw);
 
 // Static directory
 app.use(express.static(path.join(__dirname, './public')));
 
 // Routes
 // =============================================================
-require('./routes/api-routes')(app);
-require('./routes/html-routes')(app);
+require('./routes/api-routes')(app, authorizer);
+require('./routes/html-routes')(app, authorizer);
 
 // Starts the server to begin listening
 // =============================================================
@@ -29,6 +34,5 @@ if (process.env.NODE_ENV !== 'test') {
     });
 
 }
-
 
 module.exports = app; // for testing
