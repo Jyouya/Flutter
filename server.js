@@ -1,27 +1,27 @@
-require('dotenv').config(); // Load keys for crytpo
-
-const models = require('./models');
+const https = require('https');
 const express = require('express');
-const path = require('path');
-
-const PORT = process.env.PORT || 8080;
+const fs = require ('fs');
+const app = express();
 const path = require("path");
 
-const app = express();
+const PORT = process.env.PORT || 8443;
+
+app.use(express.static(path.join(__dirname, "/public")));
+
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Static directory
-app.use(express.static(path.join(__dirname, './public')));
-
-// Routes
-// =============================================================
-require('./routes/api-routes')(app);
 require('./routes/html-routes')(app);
 
-// Starts the server to begin listening
-// =============================================================
+https.createServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+}, app)
+.listen(PORT, function () {
+  console.log('Example app listening on port ' + PORT + '! Go to https://localhost:' + PORT)
+});
+
 if (process.env.NODE_ENV !== 'test') {
     models.sequelize.sync().then(() => {
         app.listen(PORT, function () {
@@ -30,6 +30,5 @@ if (process.env.NODE_ENV !== 'test') {
     });
 
 }
-
 
 module.exports = app; // for testing
