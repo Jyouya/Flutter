@@ -4,6 +4,8 @@ const fs = require ('fs');
 const app = express();
 const path = require("path");
 
+const models = ("./models");
+
 const PORT = process.env.PORT || 8443;
 
 app.use(express.static(path.join(__dirname, "/public")));
@@ -22,13 +24,13 @@ https.createServer({
   console.log('Example app listening on port ' + PORT + '! Go to https://localhost:' + PORT)
 });
 
-if (process.env.NODE_ENV !== 'test') {
-    models.sequelize.sync().then(() => {
-        app.listen(PORT, function () {
-            console.log('App listening on PORT ' + PORT);
-        });
-    });
+// if (process.env.NODE_ENV !== 'test') {
+//     models.sequelize.sync().then(() => {
+//         app.listen(PORT, function () {
+//             console.log('App listening on PORT ' + PORT);
+//         });
+//     });
 
-}
+// }
 
 module.exports = app; // for testing
