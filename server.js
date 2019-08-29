@@ -2,13 +2,17 @@ const https = require('https');
 const express = require('express');
 const fs = require ('fs');
 const app = express();
+const path = require("path");
+
 const PORT = process.env.PORT || 8443;
+
+app.use(express.static(path.join(__dirname, "/public")));
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const html = require('./routes/html-routes')(app);
+require('./routes/html-routes')(app);
 
 https.createServer({
   key: fs.readFileSync('server.key'),
