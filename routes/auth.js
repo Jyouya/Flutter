@@ -12,7 +12,7 @@ const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z]).{8,}/;
 
 module.exports = function (app, db, authorizer) {
 
-    authorizer.register('/login', ['default'], ['GET','POST'])
+    authorizer.register('/login', ['default'], ['GET','POST'], {ignore: true})
     app.post('/login', async function (req, res) {
         const user = await authenticate(req.body.email, req.body.password);
         if (!user) {

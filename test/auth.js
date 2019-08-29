@@ -12,10 +12,18 @@ chai.use(chaiHttp);
 describe('Authorization', () => {
     // Empty the database
     before((done) => {
-        db.sequelize.sync({ force: true }).then(() => {
-            server.listen(PORT);
-        }).then(done)
+        db.Token.destroy({ where: {} }).then(() => {
+            db.User.destroy({ where: {} }).then(() => {
+                done();
+            });
+        });
     });
+
+    const agent = chai.request.agent(server);
+    after((done) => {
+        agent.close();
+        done();
+    })
 
     describe('Create Account', () => {
         it('it should create an account', (done) => {
@@ -76,7 +84,7 @@ describe('Authorization', () => {
                 email: "cowboy@hat.emoji",
                 password: "AsDfQwErTy"
             };
-            chai.request(server)
+            agent
                 .post('/login')
                 .send(credentials)
                 .end((err, res) => {
@@ -87,28 +95,25 @@ describe('Authorization', () => {
                 });
         });
 
-
-        let token;
         it('it should be able to login to the account with the right password', (done) => {
             const credentials = {
                 email: "cowboy@hat.emoji",
                 password: "Asdfqwerty",
             };
-            chai.request(server)
+            agent
                 .post('/login')
                 .send(credentials)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.be.a('string');
-                    token = res.body;
+                    res.should.have.cookie('jwt');
                     done();
                 });
         });
 
         it('it should authenticate the user with the jwt', (done) => {
-            chai.request(server)
+            agent
                 .post('/api/authtest')
-                .send({ jwt: token })
+                .send({ data: 'dummy'})
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an('object');

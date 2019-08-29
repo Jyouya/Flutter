@@ -12,14 +12,17 @@ module.exports = (app, authorizer) => {
         try {
             // const { userId, type } = await verify(req.body.jwt, req);
             const userId = req.userId;
+            const username = (await db.User.findOne({
+                where: {
+                    id: userId
+                }
+            })).username
+
             res.json({
-                msg: `Hello ${(await db.User.findOne({
-                    where: {
-                        id: userId
-                    }
-                })).username}`
+                msg: `Hello ${username}`
             });
         } catch (err) {
+            console.log(err);
             res.status(403).json({msg: err});
         }
     });
