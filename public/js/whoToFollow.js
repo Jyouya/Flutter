@@ -2,12 +2,25 @@ $(document).ready(() => {
     // Grabs the follow element, and if none found, do nothing 
     const followDiv = $(".who-to-follow") || null;
 
-    console.log(followDiv);
+    // Handle the follow button being pressed
+    $(document).on("click", "button.follow", handleFollow);
     
     if (!followDiv.length) return console.log("No suggested follow div detected!");
     else {
         getFollowSuggestions();
     }
+
+    //Handler functions
+
+    // This function handles the "follow" button
+    function handleFollow() {
+        const userId = $(this).attr("data-user-id");
+        console.log(userId);
+        // Post to the user's id the new follow
+    }
+
+    // General functions
+
     // This function grabs suggestions based on who the user should follow.
     function getFollowSuggestions() {
         // For later, when we can hook into the api and get suggestions
@@ -43,20 +56,8 @@ $(document).ready(() => {
                     <img src="${user.avatar}" alt="${user.username}" onerror="this.src='/images/blank-avatar.jpg';" />
                 </div>
                 <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${user.username}</div>
-                <button class="button" data-user-id="${user.id}" style="margin-left: auto">Follow</button>
+                <button class="button follow" data-user-id="${user.id}" style="margin-left: auto">Follow</button>
             </div>`);
         })
     }
-})
-
-// <div class="m-2" style="display: flex; flex-flow: row nowrap; align-items: center; justify-content: space-between;">
-//                 <div style="display: flex; flex-flow: row nowrap; align-items: center; width: 60%; overflow: hidden; background: red;">
-//                     <div class="avatar-container mr-2">
-//                         <img src="${user.avatar}" alt="${user.username}" onerror="this.src='/images/blank-avatar.jpg';" />
-//                     </div>
-//                     <div class="mr-2" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${user.username}</div>
-//                 </div>
-//                 <div style="width: 40%; overflow: hidden; background: yellow;">
-//                 <button class="button" data-user-id="${user.id}" style="align-self: center;">Follow</button>
-//                 </div>
-//             </div>
+});
