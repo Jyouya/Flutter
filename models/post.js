@@ -29,13 +29,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   });
   Post.associate = function (models) {
-    /*
     Post.belongsTo(models.User, {
       foreignKey: {
         allowNull: false
       }
     })
-    */
     Post.hasMany(models.Post, {
       as: 'Replies',
       foreignKey: 'replyId'

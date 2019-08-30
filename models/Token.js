@@ -1,5 +1,4 @@
 module.exports = function(sequelize, DataTypes) {
-    /*
     const Token = sequelize.define('Token', {
         id: {
             allowNull: false,
@@ -17,7 +16,6 @@ module.exports = function(sequelize, DataTypes) {
             }
         });
     };
-*/
-    const Token= "token"
+
     return Token;
 };

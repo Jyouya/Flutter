@@ -25,12 +25,12 @@ module.exports = (app) => {
             res.status(403).json({ msg: err });
         }
     });
-    app.Post('/posts',function(req,res){
+    app.post('/posts',function(req,res){
         db.Post.create({content: req.body.content}).then(function(post){
             console.log("post added to api")
         })
     })
-    app.Post('/replies/:id', function (req, res) {
+    app.post('/replies/:id', function (req, res) {
         db.Post.findOne({
             where:{
                 id:req.params.id

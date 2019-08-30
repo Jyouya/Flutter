@@ -18,6 +18,7 @@ describe('Create Post', () => {
             .post('/post')
             .send(newPost)
             .end();
+            done();
     });
     it('it should create an account', (done) => {
         const newReply = {
@@ -27,5 +28,6 @@ describe('Create Post', () => {
             .post('/post')
             .send(newReply)
             .end();
+            done();
     });
 })
