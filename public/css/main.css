@@ -213,14 +213,14 @@ textarea { resize: none; }
     justify-content: flex-start;
 }
 
+.post-content {
+    line-height: 1.8em;
+}
+
 .poster-information {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-}
-
-.poster-information .date {
-    flex-grow: 1; /* Pushes dropdown button to right */
 }
 
 .post-actions > a {
