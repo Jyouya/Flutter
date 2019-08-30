@@ -47,6 +47,7 @@ module.exports = function(sequelize, DataTypes) {
     User.associate = function(models) {
         // User.hasMany(models.Post); // posts aren't created yet
         User.hasMany(models.Token);
+        User.hasMany(models.Post);
     };
 
     return User;
