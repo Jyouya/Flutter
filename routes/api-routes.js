@@ -18,9 +18,32 @@ module.exports = (app) => {
                 })).username}`
             });
         } catch (err) {
-            res.status(403).json({msg: err});
+            res.status(403).json({ msg: err });
         }
     });
+    app.Post('/posts',function(req,res){
+        db.Post.create({content: req.body.content}).then(function(post){
+            console.log("post added to api")
+        })
+    })
+    app.Post('/replies/:id', function (req, res) {
+        db.Post.findOne({
+            where:{
+                id:req.params.id
+            }
+        }).then(
+            (post) => {
+                db.Post.create({content: req.body}).then( //req.body.content refering to the content of the post.
+                    (reply) => {
+                        reply.SetReplyingTo(post).then(
+                            (self) => {
+                                //now this post has a replyId of the id of the post it is replying to, thus tying it to that post along with its normal autoincremented id
+                            }
+                        )
+                    }
+                )
+            })
+    })
 
 };
 

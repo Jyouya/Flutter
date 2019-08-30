@@ -72,10 +72,10 @@
                 <div class="avatar-container">
                     <img src="" alt="Your Avatar" onerror="this.src='/images/blank-avatar.jpg';" />
                 </div>
-                <div class="new-post-data-container pl-3">
-                    <textarea type="text" placeholder="Anything on your mind?" class="new-post-input-field no-scrollbar mb-2"></textarea>
+                <form class="new-post-data-container pl-3" action ="/posts" method="post" id="postSubmition">
+                    <textarea type="text" name="msg" placeholder="Anything on your mind?" class="new-post-input-field no-scrollbar mb-2"></textarea>
                     <button class="button" id="submit-post-button" disabled>Submit</button>
-                </div>
+                </form>
             </div>
 
             <div class="posts" id="posts">
