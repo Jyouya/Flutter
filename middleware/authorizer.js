@@ -50,8 +50,10 @@ authorizer.mw = async function (req, res, next) {
         // console.log(user.userId);
         req.userId = user.userId; // attach user id to 
         req.userType = user.type; // in case an endpoint wants it.
-        scope = (scopes[req.path] || scopes.default)[user.type]; // scope now contains the methods the user has access to for this endpoint
+        const scopePath = (scopes[req.path] || scopes.default);
 
+        scope = scopePath[user.type] || scopePath.default;
+        
         // Unauthorized and logged in
         if (!(scope && scope[req.method])) {
             // console.log(req.path);
