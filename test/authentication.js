@@ -12,11 +12,12 @@ chai.use(chaiHttp);
 describe('Authentication and Authorization', () => {
     // Empty the database
     before((done) => {
-        db.Token.destroy({ where: {} }).then(() => {
-            db.User.destroy({ where: {} }).then(() => {
-                done();
-            });
-        });
+        Promise.all([
+            new Promise(resolve => server.on("app_started", resolve)),
+            db.Token.destroy({ where: {} }),
+        ])
+            .then(() => db.User.destroy({ where: {} }))
+            .then(() => done());
     });
 
     const agent = chai.request.agent(server);
@@ -113,7 +114,7 @@ describe('Authentication and Authorization', () => {
         it('it should authenticate the user with the jwt', (done) => {
             agent
                 .post('/api/authtest')
-                .send({ data: 'dummy'})
+                .send({ data: 'dummy' })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an('object');
@@ -138,7 +139,7 @@ describe('Authentication and Authorization', () => {
         it('it should be unable to POST /api/restrictedtest as a basic user', (done) => {
             agent
                 .post('/api/restrictedtest')
-                .send({data: 'stuff'})
+                .send({ data: 'stuff' })
                 .end((err, res) => {
                     res.should.have.status(403);
                     done();
