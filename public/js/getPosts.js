@@ -1,47 +1,18 @@
 const postsContainer = $(".posts");
 
-showPosts(1, [
-    {
-        id: "1",
-        body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46 UTC",
-        user: {
-            username: "😄",
-            avatarImg: "https://randomuser.me/api/portraits/women/63.jpg"
-        }
-    },
-    {
-        id: "2",
-        body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46 UTC",
-        user: {
-            username: "😄",
-            avatarImg: "https://randomuser.me/api/portraits/women/45.jpg"
-        }
-    },
-    {
-        id: "3",
-        body: "😄😄😅😅😄😄😡😡😡😡😡😡😡😡😡😅😄🤑🤑🤑🤑🤑😡😡😡🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-29 18:34:46 UTC",
-        user: {
-            username: "🤫",
-            avatarImg: "https://randomuser.me/api/portraits/men/11.jpg"
-        }
-    },
-    {
-        id: "4",
-        body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46 UTC",
-        user: {
-            username: "🤨",
-            avatarImg: "https://randomuser.me/api/portraits/men/9.jpg"
-        }
-    }
-]);
+function getPosts(count) {
+    let queryCount = "";
+    if (count) queryCount = `?=${count}`
 
-function showPosts(id, posts) {
-    if (id) console.log("Need to show posts for user with id of: ", id);
-    posts.forEach(post => {
+    return $.get("/api/posts" + queryCount);
+}
+
+const posts = getPosts();
+showPosts();
+
+async function showPosts() {
+    (await posts).forEach(post => {
+        console.log("Got post: ", post);
         const date = new Date(post.createdAt);
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         let time = date.getHours();
@@ -55,15 +26,15 @@ function showPosts(id, posts) {
         postsContainer.prepend(`
         <div class="post bd-bottom hover-fade p-3">
             <div class="avatar-container">
-                <img src="${post.user.avatarImg}" alt="${post.user.username}" onerror="this.src='/images/blank-avatar.jpg';" />
+                <img src="${post.User.avatarImg}" alt="${post.User.username}" onerror="this.src='/images/blank-avatar.jpg';" />
             </div>
             <div class="post-content pl-3">
                 <div class="poster-information">
-                    <span class="text-bold">${post.user.username}</span>
+                    <span class="text-bold">${post.User.username}</span>
                     <span class="text-fine ml-1">${months[date.getMonth()]} ${date.getDate()} at ${time}:${date.getMinutes()} ${timeOfDay}</span>
                     <span class="dropdown text-fine cursor-pointer ml-1 p-1" style="margin-left: auto;"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="post-content mb-2">${post.body}</div>
+                <div class="post-content mb-2">${post.content}</div>
                 <div class="post-actions">
                     <a href="javascript:likePost(${post.id})">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22.559" height="19.744"

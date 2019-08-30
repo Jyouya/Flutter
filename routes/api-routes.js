@@ -26,13 +26,26 @@ module.exports = (app) => {
         }
     });
     
-    app.post('/posts',async function(req,res){
+    app.post('/api/posts',async function(req,res){
         await db.Post.create({
             content: req.body.content,
             UserId: req.userId,
             replyId: req.body.replyId || null,
         });
         res.json({msg: 'Post added successfuly'});
+    });
+
+    // IF the user uses /api/posts?count=10, will send 10 back; otherwise 20
+    app.get("/api/posts/", async function (req, res) {
+        const count = req.query.count || 20;
+        const output = await db.Post.findAll({
+            limit: count,
+            include: [{
+                model: db.User,
+                attributes: ["id", "username", "avatarImg"]
+            }]
+        });
+        res.json(output);
     });
 
     // app.post('/replies/:id', function (req, res) {
