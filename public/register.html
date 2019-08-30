@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <nav class="m-3">
+    <nav class="m-3" style="position: fixed; top: 20px; left: 20px;">
         <a href="/">
             <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="21.444" height="16.676" viewBox="0 0 21.444 16.676">
                 <path id="home-solid"
@@ -26,17 +26,18 @@
         </a>
     </nav>
     <div class="form-center">
-        <form action="/api/accounts" method="POST" class="p-3 bd">
+        <form action="/api/users" method="POST" class="p-3 bd">
             <label class="text-fine mb-1" for="email"><b>Email</b></label>
             <input id="email-input" class="mb-2" type="email" placeholder="Email" name="email" required>
 
-            <label class="text-fine mb-1" for="username"><b>Emoji Name</b></label>
+            <label class="text-fine mb-1" for="username"><b>Emoji Username</b></label>
             <input id="username-input" class="mb-2" type="text" placeholder="Username" name="username" required>
 
             <label class="text-fine mb-1" for="password"><b>Password</b></label>
             <input id="password-input" class="mb-3" type="password" placeholder="Enter Password" name="password" required>
 
             <button class="button" type="submit">Register</button>
+            <div class="text-fine pt-2">Already have an account? <a href="/login" class="underline-hover">Login</a></div>
         </form>
     </div>
 
