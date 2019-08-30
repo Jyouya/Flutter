@@ -24,18 +24,18 @@ authorizer.register = function (route, userTypes, methods = ['GET'], options={})
 
 
 authorizer.mw = async function (req, res, next) {
-    if (scopes[req.url] && scopes[req.url].ignore) {
+    if (scopes[req.path] && scopes[req.path].ignore) {
         next();
         return;
     }
 
     let scope;
     if (!req.cookies.jwt) {
-        scope = (scopes[req.url] || scopes.default).default || {};// (route | default route).default user | user with no permissions
+        scope = (scopes[req.path] || scopes.default).default || {};// (route | default route).default user | user with no permissions
 
         // Unauthorized and not logged in
         if (!scope[req.method]) {
-            res.redirect('./login');
+            res.redirect('/login');
             return;
         }
     } else {
@@ -44,16 +44,17 @@ authorizer.mw = async function (req, res, next) {
             user = await verify(req.cookies.jwt);// returns id and type
         } catch (err) { // user has a jwt cookie, but it can't be verified.  Direct them to login
             // console.log(err);
-            res.redirect('./login');
+            res.redirect('/login');
             return;
         }
         // console.log(user.userId);
         req.userId = user.userId; // attach user id to 
         req.userType = user.type; // in case an endpoint wants it.
-        scope = (scopes[req.url] || scopes.default)[user.type]; // scope now contains the methods the user has access to for this endpoint
+        scope = (scopes[req.path] || scopes.default)[user.type]; // scope now contains the methods the user has access to for this endpoint
 
         // Unauthorized and logged in
         if (!(scope && scope[req.method])) {
+            // console.log(req.path);
             res.status(403).end();
             return;
         }
