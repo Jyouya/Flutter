@@ -15,17 +15,11 @@
     grid-template-columns: 1fr 672px 1fr;
 }
 
-.col-left, .col-right {
-    overflow: hidden;
-} 
-
-.col-right *, .col-left * {
-    max-width: 480px;
-}
-
-.col-right > :not(:last-child) {
-    margin-bottom: 24px; /* adds margin to each element except the last one */
-}
+.col-middle { overflow-y: scroll; }
+.col-left, .col-right { overflow: hidden; } 
+.col-right *, .col-left * { max-width: 480px; }
+/* adds margin to each element except the last one */
+.col-right > :not(:last-child) { margin-bottom: 24px; }
 
 /* General & Global Styling */
 body {
