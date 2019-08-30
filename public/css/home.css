@@ -33,17 +33,17 @@
     text-align: right;
 }
 
-.button {
+.button-special {
     background-color: var(--bright-1);
     border-color: var(--bright-1);
 }
 
-.button[disabled] {
+.button-special[disabled] {
     opacity: 0.5;
     cursor: unset;
 }
 
-.button[disabled]:hover {
+.button-special[disabled]:hover {
     opacity: 0.5;
     color: var(--bright-2);
 }
