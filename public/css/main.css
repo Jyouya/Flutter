@@ -62,7 +62,7 @@ footer div[data-link] {
     margin-right: 8px;
 }
 
-footer div a:hover { text-decoration: underline; }
+a.underline-hover:hover { text-decoration: underline; }
 
 .button {
     padding: 12px 24px;
