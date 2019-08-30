@@ -39,6 +39,7 @@ models.sequelize.sync().then(() => {
       cert: fs.readFileSync('server.cert')
   }, app).listen(PORT, function () {
       console.log('Example app listening on port ' + PORT + '! Go to https://localhost:' + PORT)
+      app.emit( "app_started" )
   });
 
 });
