@@ -41,7 +41,7 @@ authorizer.mw = async function (req, res, next) {
     } else {
         let user;
         try {
-            user = await verify(req.cookies.jwt, req);// returns id and type
+            user = await verify(req.cookies.jwt);// returns id and type
         } catch (err) { // user has a jwt cookie, but it can't be verified.  Direct them to login
             // console.log(err);
             res.redirect('./login');
