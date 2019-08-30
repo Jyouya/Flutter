@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8080;
 
 chai.use(chaiHttp);
 
-describe('Authorization', () => {
+describe('Authentication and Authorization', () => {
     // Empty the database
     before((done) => {
         db.Token.destroy({ where: {} }).then(() => {
@@ -120,6 +120,29 @@ describe('Authorization', () => {
                     res.body.should.have.property('msg').eql('Hello 🤠');
                     done();
                 });
-        })
+        });
+    });
+
+    describe('Authorization', () => {
+        it('it should be able to GET /api/restrictedtest as a basic user', (done) => {
+            agent
+                .get('/api/restrictedtest')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('msg').eql('You got the thing!');
+                    done();
+                });
+        });
+
+        it('it should be unable to POST /api/restrictedtest as a basic user', (done) => {
+            agent
+                .post('/api/restrictedtest')
+                .send({data: 'stuff'})
+                .end((err, res) => {
+                    res.should.have.status(403);
+                    done();
+                });
+        });
     });
 })

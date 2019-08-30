@@ -42,12 +42,12 @@ authorizer.mw = async function (req, res, next) {
         let user;
         try {
             user = await verify(req.cookies.jwt, req);// returns id and type
-        } catch (err) {
+        } catch (err) { // user has a jwt cookie, but it can't be verified.  Direct them to login
             // console.log(err);
             res.redirect('./login');
             return;
         }
-        console.log(user.userId);
+        // console.log(user.userId);
         req.userId = user.userId; // attach user id to 
         req.userType = user.type; // in case an endpoint wants it.
         scope = (scopes[req.url] || scopes.default)[user.type]; // scope now contains the methods the user has access to for this endpoint
