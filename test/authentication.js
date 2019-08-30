@@ -12,12 +12,15 @@ chai.use(chaiHttp);
 describe('Authentication and Authorization', () => {
     // Empty the database
     before((done) => {
-        Promise.all([
-            new Promise(resolve => server.on("app_started", resolve)),
-            db.Token.destroy({ where: {} }),
-        ])
-            .then(() => db.User.destroy({ where: {} }))
-            .then(() => done());
+        new Promise(resolve => server.on("app_started", resolve)).then(() => {
+            Promise.all([
+                db.Token.destroy({ where: {} }),
+                db.Post.destroy({ where: {} }),
+                db.Like.destroy({ where: {} })
+            ])
+                .then(() => db.User.destroy({ where: {} }))
+                .then(() => done());
+        })
     });
 
     const agent = chai.request.agent(server);
