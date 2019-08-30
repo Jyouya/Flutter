@@ -7,7 +7,7 @@ module.exports = function (authorizer) {
     
     authorizer.register('/', ['default', 'basic', 'mod', 'admin'], ['GET', 'POST']);
     authorizer.register('/home', ['default', 'basic', 'mod', 'admin'], ['GET']);
-    authorizer.register('/account', ['basic', 'mod', 'admin'], ['GET']);
+    authorizer.register('/profile', ['default', 'basic', 'mod', 'admin'], ['GET']); 
 
     // Test routes
     authorizer.register('/api/restrictedtest', ['basic', 'admin'], ['GET']);

@@ -39,6 +39,7 @@ module.exports = function (app, db) {
         }
 
         // TODO: When issuing a new token to a user, delete all of their expired tokens from the database
+        res.redirect('/home');
     });
 
     app.post('/api/users', async function (req, res) {
