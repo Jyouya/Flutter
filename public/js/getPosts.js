@@ -1,6 +1,6 @@
 const postsContainer = $(".posts");
 
-showPosts([
+showPosts(1, [
     {
         id: "1",
         body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
@@ -39,7 +39,8 @@ showPosts([
     }
 ]);
 
-function showPosts(posts) {
+function showPosts(id, posts) {
+    if (id) console.log("Need to show posts for user with id of: ", id);
     posts.forEach(post => {
         const date = new Date(post.createdAt);
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -50,7 +51,7 @@ function showPosts(posts) {
             time -= 12;
             timeOfDay = "PM";
         }
-        
+
         postsContainer.prepend(`
         <div class="post bd-bottom hover-fade p-3">
             <div class="avatar-container">

@@ -1,14 +1,20 @@
 // Global Flags
 let view = null;
+let userID = null;
 
-// Run by default
-loadInfo();
+// Get the id flag from url 
+let query = window.location.href;
+if (query.includes("id=")) {
+    userID = query.split("id=")[1];
+    loadInfo(userID);
+} else {
+    console.log("NO ID IN URL!")
+}
 
 // Click handlers
 $(document).on("click", ".switch-view-button", handleSwitchView);
 
 // Click Handler Functions
-
 // This function handles the switch view click and function
 function handleSwitchView() {
     const switchTo = $(this).attr("data-view")
@@ -17,7 +23,6 @@ function handleSwitchView() {
 }
 
 // Page functions
-
 // This function switches the view of the profile page 
 function switchView(switchTo) {
     // Grabs the containing divs
@@ -46,6 +51,7 @@ function switchView(switchTo) {
     } else return console.log("switchView had an invalid value passed!");
 }
 
+// Load the user's info based on the id in the url to the dom
 function loadInfo(user) {
     console.log($('div').find(".user-display-name"))
     $(document).find(".user-display-name").text("Username");
