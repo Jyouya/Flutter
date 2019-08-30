@@ -1,0 +1,44 @@
+:root {
+    --white: #FFFFFF;
+    --dark-1: #2A102B;
+    --dark-2: #3B193C;
+    --bright-1: #C743A8;
+    --bright-2: #63376B;
+}
+
+nav {
+    display: inline-block;
+}
+
+.form-center {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+form label {
+    display: block;
+    width: 100%;
+}
+
+form input {
+    display: block;
+    border: 1px solid var(--bright-2);
+    background: var(--white);
+    padding: 4px 12px;
+    height: 36px;
+    border-radius: 18px;
+}
+
+form input:focus {
+    outline: none;
+}

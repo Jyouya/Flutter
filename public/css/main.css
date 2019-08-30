@@ -15,6 +15,18 @@
     grid-template-columns: 1fr 672px 1fr;
 }
 
+.col-left, .col-right {
+    overflow: hidden;
+} 
+
+.col-right *, .col-left * {
+    max-width: 480px;
+}
+
+.col-right > :not(:last-child) {
+    margin-bottom: 24px; /* adds margin to each element except the last one */
+}
+
 /* General & Global Styling */
 body {
     font-family: 'Nunito Sans', sans-serif;
@@ -30,6 +42,27 @@ a {
 a[active] {
     color: var(--bright-1);
 }
+
+footer {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+#footer-more { position: relative; }
+
+.footer-menu {
+    background: var(--dark-2);
+    width: auto;
+}
+
+.footer-menu a { display: inline-block; }
+
+footer div[data-link] {
+    margin-bottom: 8px;
+    margin-right: 8px;
+}
+
+a.underline-hover:hover { text-decoration: underline; }
 
 .button {
     padding: 12px 24px;
@@ -62,7 +95,10 @@ textarea { resize: none; }
 .bd-right { border-right: 1px solid var(--bright-2); }
 .bd-left { border-left: 1px solid var(--bright-2); }
 .bd-bottom { border-bottom: 1px solid var(--bright-2); }
+.bd-top { border-top: 1px solid var(--bright-2); }
 .bd { border: 1px solid var(--bright-2); }
+
+.rounded-1 { border-radius: 4px; }
 
 .p-1 { padding: 8px; }
 .p-2 { padding: 16px; }
@@ -81,6 +117,12 @@ textarea { resize: none; }
 .pt-3 { padding-top: 24px; }
 .pt-4 { padding-top: 32px; }
 .pt-5 { padding-top: 40px; }
+
+.m-1{ margin: 8px; }
+.m-2{ margin: 16px; }
+.m-3{ margin: 24px; }
+.m-4{ margin: 32px; }
+.m-5{ margin: 40px; }
 
 .ml-1{ margin-left: 8px; }
 .ml-2{ margin-left: 16px; }
@@ -199,4 +241,8 @@ nav { position: relative; }
 
 [active] svg path {
     fill: var(--bright-1);
+}
+
+.who-to-follow {
+    overflow: hidden;
 }
