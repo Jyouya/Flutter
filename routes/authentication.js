@@ -10,9 +10,7 @@ const Op = require('sequelize').Op;
 
 const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z]).{8,}/;
 
-module.exports = function (app, db, authorizer) {
-
-    authorizer.register('/login', ['default'], ['GET','POST'], {ignore: true})
+module.exports = function (app, db) {
     app.post('/login', async function (req, res) {
         const user = await authenticate(req.body.email, req.body.password);
         if (!user) {
@@ -43,7 +41,6 @@ module.exports = function (app, db, authorizer) {
         // TODO: When issuing a new token to a user, delete all of their expired tokens from the database
     });
 
-    authorizer.register('/api/users', ['default', 'admin'], ['POST']); // Allow users with no permissions to register.  Prevent normal users from creating an account while logged in.
     app.post('/api/users', async function (req, res) {
         let user;
         try {

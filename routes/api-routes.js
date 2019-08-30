@@ -3,11 +3,10 @@ const auth = require('./authentication');
 const verify = require('../verify');
 
 
-module.exports = (app, authorizer) => {
-    auth(app, db, authorizer); // Create POST routes for /api/login and /api/users
+module.exports = (app) => {
+    auth(app, db); // Create POST routes for /api/login and /api/users
 
     // A test route for automated testing.  Don't change.
-    authorizer.register('/api/authtest', ['basic', 'mod', 'admin'], ['GET', 'POST']);
     app.post('/api/authtest', async function (req, res) {
         try {
             // const { userId, type } = await verify(req.body.jwt, req);
@@ -27,8 +26,6 @@ module.exports = (app, authorizer) => {
         }
     });
 
-    authorizer.register('/api/restrictedtest', ['basic', 'admin'], ['GET']);
-    authorizer.register('/api/restrictedtest', ['admin'], ['POST']);
     app.route('/api/restrictedtest')
         .get(function (req, res) {
             res.json({

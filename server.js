@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+require('./routes/permissions')(authorizer);
 app.use(authorizer.mw);
 
 // Static directory
@@ -25,8 +26,8 @@ app.use(express.static(path.join(__dirname, './public')));
 
 // Routes
 // =============================================================
-require('./routes/api-routes')(app, authorizer);
-require('./routes/html-routes')(app, authorizer);
+require('./routes/api-routes')(app);
+require('./routes/html-routes')(app);
 
 
 
