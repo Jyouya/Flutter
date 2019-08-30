@@ -54,7 +54,7 @@ authorizer.mw = async function (req, res, next) {
 
         // Unauthorized and logged in
         if (!(scope && scope[req.method])) {
-            console.log(req.path);
+            // console.log(req.path);
             res.status(403).end();
             return;
         }

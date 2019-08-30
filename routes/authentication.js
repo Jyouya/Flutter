@@ -35,11 +35,9 @@ module.exports = function (app, db) {
         } catch (err) {
             console.log(err);
             res.json(err);
+            return;
             // res.json({ msg: 'Login failed.  Please try again later.' });
         }
-
-        // TODO: When issuing a new token to a user, delete all of their expired tokens from the database
-        res.redirect('/home');
     });
 
     app.post('/api/users', async function (req, res) {
