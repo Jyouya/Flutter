@@ -25,29 +25,34 @@ module.exports = (app) => {
             res.status(403).json({ msg: err });
         }
     });
-    app.post('/posts',function(req,res){
-        db.Post.create({content: req.body.content}).then(function(post){
-            console.log("post added to api")
-        })
-    })
-    app.post('/replies/:id', function (req, res) {
-        db.Post.findOne({
-            where:{
-                id:req.params.id
-            }
-        }).then(
-            (post) => {
-                db.Post.create({content: req.body}).then( //req.body.content refering to the content of the post.
-                    (reply) => {
-                        reply.SetReplyingTo(post).then(
-                            (self) => {
-                                //now this post has a replyId of the id of the post it is replying to, thus tying it to that post along with its normal autoincremented id
-                            }
-                        )
-                    }
-                )
-            })
-    })
+    
+    app.post('/posts',async function(req,res){
+        await db.Post.create({
+            content: req.body.content,
+            UserId: req.userId,
+            replyId: req.body.replyId || null,
+        });
+        res.json({msg: 'Post added successfuly'});
+    });
+
+    // app.post('/replies/:id', function (req, res) {
+    //     db.Post.findOne({
+    //         where:{
+    //             id:req.params.id
+    //         }
+    //     }).then(
+    //         (post) => {
+    //             db.Post.create({content: req.body}).then( //req.body.content refering to the content of the post.
+    //                 (reply) => {
+    //                     reply.SetReplyingTo(post).then(
+    //                         (self) => {
+    //                             //now this post has a replyId of the id of the post it is replying to, thus tying it to that post along with its normal autoincremented id
+    //                         }
+    //                     )
+    //                 }
+    //             )
+    //         })
+    // })
 
     app.route('/api/restrictedtest')
         .get(function (req, res) {

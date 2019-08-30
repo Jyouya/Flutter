@@ -7,10 +7,10 @@ $(document).ready(() => {
     //$(document).on("click", "#submit-post-button", handleSubmitPost);
     $("#postSubmition").submit(function(event){
         event.preventDefault();
-        $.post('/posts', $(this).serialize().then(function(result){
+        $.post('/posts', $(this).serialize()).then(function(result){
             //$('/posts').append(DOMmanipulation(result))
-        }))
-    })
+        });
+    });
     // Handlers
 
     // This functions handles adding a new post button
