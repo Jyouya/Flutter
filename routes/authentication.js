@@ -26,21 +26,11 @@ module.exports = function (app, db, authorizer) {
             UserId: id
         });
         try {
-            // res.json(await jwtSignP(
-            //     {
-            //         userId: id,
-            //         tokenId: tokenId,
-            //         type: user.type,
-            //         ip: requestIp.getClientIp(req)
-            //     },
-            //     process.env.JWT_SECRET
-            // ));
             res.cookie('jwt', await jwtSignP(
                 {
                     userId: id,
                     tokenId: tokenId,
-                    type: user.type,
-                    ip: requestIp.getClientIp(req)
+                    type: user.type
                 },
                 process.env.JWT_SECRET
             )).send();
