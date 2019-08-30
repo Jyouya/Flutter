@@ -8,37 +8,37 @@ showPosts([
     { 
         id: "1",
         body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46",
+        createdAt: "2019-08-30 14:34:46 UTC",
         user: {
             username: "😄",
-            avatarImg: "https://via.placeholder.com/200"
+            avatarImg: "https://randomuser.me/api/portraits/women/63.jpg"
         }
     },
     { 
         id: "2",
         body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46",
+        createdAt: "2019-08-30 14:34:46 UTC",
         user: {
             username: "😄",
-            avatarImg: "https://via.placeholder.com/200"
+            avatarImg: "https://randomuser.me/api/portraits/women/45.jpg"
         }
     },
     { 
         id: "3",
         body: "😄😄😅😅😄😄😡😡😡😡😡😡😡😡😡😅😄🤑🤑🤑🤑🤑😡😡😡🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46",
+        createdAt: "2019-08-29 18:34:46 UTC",
         user: {
             username: "🤫",
-            avatarImg: "https://via.placeholder.com/200"
+            avatarImg: "https://randomuser.me/api/portraits/men/11.jpg"
         }
     },
     { 
         id: "4",
         body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46",
+        createdAt: "2019-08-30 14:34:46 UTC",
         user: {
             username: "🤨",
-            avatarImg: "https://via.placeholder.com/200"
+            avatarImg: "https://randomuser.me/api/portraits/men/9.jpg"
         }
     }
 ]);
@@ -61,6 +61,18 @@ function handleSubmitPost() {
 
 function showPosts(posts) {
     posts.forEach(post => {
+        const date = new Date(post.createdAt);
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let time = date.getHours();
+        let timeOfDay = "AM";
+        console.log("Time before if: ", time, timeOfDay);
+        if (time >= 12 ) {
+            time -= 12;
+            timeOfDay = "PM";
+        }
+        console.log("Time after if: ", time, timeOfDay);
+        
+        console.log(date);
         postsContainer.prepend(`
         <div class="post bd-bottom hover-fade p-3">
             <div class="avatar-container">
@@ -69,7 +81,7 @@ function showPosts(posts) {
             <div class="post-content pl-3">
                 <div class="poster-information">
                     <span class="text-bold">${post.user.username}</span>
-                    <span class="text-fine ml-1">${post.createdAt} (use moment on this)</span>
+                    <span class="text-fine ml-1">${months[date.getMonth()]} ${date.getDate()} at ${time}:${date.getMinutes()} ${timeOfDay}</span>
                     <span class="dropdown text-fine cursor-pointer ml-1 p-1" style="margin-left: auto;"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="post-content mb-2">${post.body}</div>
