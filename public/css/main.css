@@ -19,8 +19,12 @@
     overflow: hidden;
 } 
 
-.col-right * {
+.col-right *, .col-left * {
     max-width: 480px;
+}
+
+.col-right > :not(:last-child) {
+    margin-bottom: 24px; /* adds margin to each element except the last one */
 }
 
 /* General & Global Styling */
@@ -38,6 +42,27 @@ a {
 a[active] {
     color: var(--bright-1);
 }
+
+footer {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+#footer-more { position: relative; }
+
+.footer-menu {
+    background: var(--dark-2);
+    width: auto;
+}
+
+.footer-menu a { display: inline-block; }
+
+footer div[data-link] {
+    margin-bottom: 8px;
+    margin-right: 8px;
+}
+
+a.underline-hover:hover { text-decoration: underline; }
 
 .button {
     padding: 12px 24px;

@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <nav class="m-3">
+    <nav class="m-3" style="position: fixed; top: 20px; left: 20px;">
         <a href="/">
             <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="21.444" height="16.676"
                 viewBox="0 0 21.444 16.676">
@@ -27,14 +27,15 @@
         </a>
     </nav>
     <div class="form-center">
-        <form action="/api/accounts" method="GET" class="p-3 bd">
-            <label class="text-fine mb-1" for="username"><b>Emoji Name</b></label>
-            <input id="username-input" class="mb-2" type="text" placeholder="Username" name="username" required>
+        <form action="/login" method="POST" class="p-3 bd">
+            <label class="text-fine mb-1" for="email"><b>Email</b></label>
+            <input id="username-input" class="mb-2" type="text" placeholder="flutter@flutter.com" name="email" required>
 
             <label class="text-fine mb-1" for="password"><b>Password</b></label>
-            <input id="password-input" class="mb-3" type="password" placeholder="Enter Password" name="password" required>
+            <input id="password-input" class="mb-3" type="password" placeholder="superSecret123" name="password" required>
 
             <button class="button" type="submit">Login</button>
+            <div class="text-fine pt-2">Don't have an account? <a href="/register" class="underline-hover">Register</a></div>
         </form>
     </div>
 
