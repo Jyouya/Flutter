@@ -71,10 +71,13 @@ async function loadInfo() {
         $("#user-flutter-count").text(user.Posts.length);
         $(".banner-image").attr("src", user.bannerImg);
         $("#user-avatar").attr("src", user.avatarImg);
-        $("#user-bio").text("😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩")
+        $("#user-bio").text(user.bio);
 
         // Show posts
         showPosts(user);
+
+        // Show liked posts
+        // someFunction()
     })
 }
 

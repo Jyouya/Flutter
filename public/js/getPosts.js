@@ -31,9 +31,7 @@ async function showPosts() {
             time -= 12;
             timeOfDay = "PM";
         }
-
-        console.log("Debug posts: ", post.User)
-
+        
         postsContainer.prepend(`
         <div class="post bd-bottom hover-fade p-3">
             <a href="/profile?id=${post.User.id}">
