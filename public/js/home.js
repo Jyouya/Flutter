@@ -9,6 +9,8 @@ $("#postSubmition").submit(function(event){
     event.preventDefault();
     $.post('/api/posts', $(this).serialize()).then(function(result){
         //$('/posts').append(DOMmanipulation(result))
+        alert("(TEMP) Posted succesfully.");
+        window.location.reload();
     });
 });
 

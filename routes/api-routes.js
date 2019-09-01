@@ -26,7 +26,8 @@ module.exports = (app) => {
         }
     });
     
-    app.post('/api/posts',async function(req,res){
+    app.post('/api/posts', async function(req, res){
+        console.log(req.body);
         await db.Post.create({
             content: req.body.content,
             UserId: req.userId,
@@ -36,13 +37,18 @@ module.exports = (app) => {
     });
 
     // IF the user uses /api/posts?count=10, will send 10 back; otherwise 20
+    // 
     app.get("/api/posts/", async function (req, res) {
-        const count = req.query.count || 20;
+        const count = parseInt(req.query.count) || 20;
+        console.log("================================================ " + count, typeof(count));
+        console.log(`User: "${req.query.user}"`);
+        const user = req.query.user;
         const output = await db.Post.findAll({
-            limit: count,
+            where: { ... user && { UserId: user } },
+            limit: count, 
             include: [{
                 model: db.User,
-                attributes: ["id", "username", "avatarImg"]
+                attributes: ["username", "avatarImg"]
             }]
         });
         res.json(output);

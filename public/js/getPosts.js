@@ -1,18 +1,27 @@
 const postsContainer = $(".posts");
 
-function getPosts(count) {
+function getPosts(options = {}) {
     let queryCount = "";
-    if (count) queryCount = `?=${count}`
+    if (options.count) queryCount = `${options.count}`;
 
-    return $.get("/api/posts" + queryCount);
+    let queryUser = "";
+    if (options.userId) queryUser = `${options.userId}`;
+
+    const query = new URLSearchParams ({
+        count: queryCount,
+        user: queryUser
+    }).toString();
+
+    console.log("Getting posts with options: ", options, "\nAnd query: ", query);
+
+    return $.get("/api/posts?" + query);
 }
 
-const posts = getPosts();
+const posts = getPosts({});
 showPosts();
 
 async function showPosts() {
     (await posts).forEach(post => {
-        console.log("Got post: ", post);
         const date = new Date(post.createdAt);
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         let time = date.getHours();
