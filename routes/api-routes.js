@@ -8,19 +8,11 @@ module.exports = (app) => {
 
     // Gets all users
     app.get('/api/users', async function (req, res) {
+        const user = req.query.user;
         res.json(await db.User.findAll({
+            where: { ... user && { id: user } },
             attributes: ["id", "username", "bannerImg", "avatarImg"],
             include: [db.Post]
-        }));
-    });
-    
-    // Gets user by ID
-    app.get('/api/users/:id', async function (req, res) {
-        const id = req.params.id;
-        res.json(await db.User.findOne({
-            where: {
-                id: id
-            }
         }));
     });
 

@@ -11,7 +11,7 @@ module.exports = function (authorizer) {
     
     authorizer.register('/api/posts', ['default', 'basic', 'mod', 'admin'], ['POST']);
     authorizer.register('/api/posts', ['default', 'basic', 'mod', 'admin'], ['GET']);
-    authorizer.register('/api/users', ['default', 'basic', 'mod', 'admin'], ['POST']);
+    
     authorizer.register('/api/users', ['default', 'basic', 'mod', 'admin'], ['GET']);
 
     // Test routes
