@@ -9,9 +9,10 @@ module.exports = function (authorizer) {
     authorizer.register('/home', ['default', 'basic', 'mod', 'admin'], ['GET']);
     authorizer.register('/profile', ['default', 'basic', 'mod', 'admin'], ['GET']); 
     
-    authorizer.register('/posts', ['basic', 'mod', 'admin'], ['POST']);
-    authorizer.register('/posts', ['default'], ['GET']);
-
+    authorizer.register('/api/posts', ['default', 'basic', 'mod', 'admin'], ['POST']);
+    authorizer.register('/api/posts', ['default', 'basic', 'mod', 'admin'], ['GET']);
+    
+    authorizer.register('/api/users', ['default', 'basic', 'mod', 'admin'], ['GET']);
 
     // Test routes
     authorizer.register('/api/restrictedtest', ['basic', 'admin'], ['GET']);
