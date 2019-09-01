@@ -6,6 +6,24 @@ const verify = require('../verify');
 module.exports = (app) => {
     auth(app, db); // Create POST routes for /api/login and /api/users
 
+    // Gets all users
+    app.get('/api/users', async function (req, res) {
+        res.json(await db.User.findAll({
+            attributes: ["id", "username", "bannerImg", "avatarImg"],
+            include: [db.Post]
+        }));
+    });
+    
+    // Gets user by ID
+    app.get('/api/users/:id', async function (req, res) {
+        const id = req.params.id;
+        res.json(await db.User.findOne({
+            where: {
+                id: id
+            }
+        }));
+    });
+
     // A test route for automated testing.  Don't change.
     app.post('/api/authtest', async function (req, res) {
         try {

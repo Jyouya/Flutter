@@ -9,7 +9,7 @@ module.exports = function (app) {
         // Are we looking for a specific profile?
         if (req.query.id) {
             // Serve the file, front end JS will load the rest
-            res.sendFile(path.join(__dirname, "../public/account.html"));
+            res.sendFile(path.join(__dirname, "../public/profile.html"));
         } 
 
         // Are we logged in?
@@ -31,4 +31,3 @@ module.exports = function (app) {
         res.sendFile(path.join(__dirname, "../public/register.html"));
     });
 }
-
