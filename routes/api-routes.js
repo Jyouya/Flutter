@@ -58,7 +58,7 @@ module.exports = (app) => {
             limit: count, 
             include: [{
                 model: db.User,
-                attributes: ["username", "avatarImg"]
+                attributes: ["username", "avatarImg", "id"]
             }]
         });
         res.json(output);

@@ -32,11 +32,15 @@ async function showPosts() {
             timeOfDay = "PM";
         }
 
+        console.log("Debug posts: ", post.User)
+
         postsContainer.prepend(`
         <div class="post bd-bottom hover-fade p-3">
-            <div class="avatar-container">
-                <img src="${post.User.avatarImg}" alt="${post.User.username}" onerror="this.src='/images/blank-avatar.jpg';" />
-            </div>
+            <a href="/profile?id=${post.User.id}">
+                <div class="avatar-container">
+                    <img src="${post.User.avatarImg}" alt="${post.User.username}" onerror="this.src='/images/blank-avatar.jpg';" />
+                </div>
+            </a>
             <div class="post-content pl-3">
                 <div class="poster-information">
                     <span class="text-bold">${post.User.username}</span>
