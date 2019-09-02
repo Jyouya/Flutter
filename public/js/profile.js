@@ -1,6 +1,7 @@
 // Global Flags
 let view = null;
 let userID = null;
+let userData = null;
 
 // Get the id flag from url 
 let query = window.location.href;
@@ -13,6 +14,15 @@ if (query.includes("id=")) {
 
 // Click handlers
 $(document).on("click", ".switch-view-button", handleSwitchView);
+
+// Gets user profile information for the query url
+function getUser() {
+    console.log("Requesting GET from: /api/users?user=" + userID);
+    return $.get("/api/users?user=" + userID, data => {
+        console.log("retreived data for: ", data[0]);
+        userData = data;
+    });
+}
 
 // Click Handler Functions
 // This function handles the switch view click and function
@@ -52,60 +62,30 @@ function switchView(switchTo) {
 }
 
 // Load the user's info based on the id in the url to the dom
-function loadInfo(user) {
-    console.log($('div').find(".user-display-name"))
-    $(document).find(".user-display-name").text("Username");
-    $("#user-flutter-count").text("(user posts count)");
-    $(".banner-image").attr("src", "https://images.pexels.com/photos/2443865/pexels-photo-2443865.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
-    $("#user-avatar").attr("src", "https://randomuser.me/api/portraits/men/11.jpg");
-    $("#user-bio").text("😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩😩")
+async function loadInfo() {
+    await (getUser()).then(function(user) {
+        user = user[0]; // goes into the array and gets first object from retreived data
+        // Profile Main
+        $("#title").text(`${user.username}'s Profile`)
+        $(document).find(".user-display-name").text(user.username);
+        $("#user-flutter-count").text(user.Posts.length);
+        $(".banner-image").attr("src", user.bannerImg);
+        $("#user-avatar").attr("src", user.avatarImg);
+        $("#user-bio").text(user.bio);
+
+        // Show posts
+        showPosts(user);
+
+        // Show liked posts
+        // someFunction()
+    })
 }
 
 const postsContainer = $("#user-flutters");
 
-// We will pass the user's posts here, for now, dummy data
-showPosts(1, [
-    {
-        id: "1",
-        body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46 UTC",
-        user: {
-            username: "😄",
-            avatarImg: "https://randomuser.me/api/portraits/women/63.jpg"
-        }
-    },
-    {
-        id: "2",
-        body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46 UTC",
-        user: {
-            username: "😄",
-            avatarImg: "https://randomuser.me/api/portraits/women/45.jpg"
-        }
-    },
-    {
-        id: "3",
-        body: "😄😄😅😅😄😄😡😡😡😡😡😡😡😡😡😅😄🤑🤑🤑🤑🤑😡😡😡🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-29 18:34:46 UTC",
-        user: {
-            username: "🤫",
-            avatarImg: "https://randomuser.me/api/portraits/men/11.jpg"
-        }
-    },
-    {
-        id: "4",
-        body: "😄😄😅😅😄😄😄😅😅😄😄😄🤑🤑😄😄😅😄🤑🤑🤑🤑🤑🤐🤐🤐🤐🤐",
-        createdAt: "2019-08-30 14:34:46 UTC",
-        user: {
-            username: "🤨",
-            avatarImg: "https://randomuser.me/api/portraits/men/9.jpg"
-        }
-    }
-]);
-
-function showPosts(id, posts) {
-    if (id) console.log("Need to show posts for user with id of: ", id);
-    posts.forEach(post => {
+function showPosts(user) {
+    console.log(user);
+    user.Posts.forEach(post => {
         const date = new Date(post.createdAt);
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         let time = date.getHours();
@@ -119,15 +99,15 @@ function showPosts(id, posts) {
         postsContainer.prepend(`
         <div class="post bd-bottom hover-fade p-3">
             <div class="avatar-container">
-                <img src="${post.user.avatarImg}" alt="${post.user.username}" onerror="this.src='/images/blank-avatar.jpg';" />
+                <img src="${user.avatarImg}" alt="${user.username}" onerror="this.src='/images/blank-avatar.jpg';" />
             </div>
             <div class="post-content pl-3">
                 <div class="poster-information">
-                    <span class="text-bold">${post.user.username}</span>
+                    <span class="text-bold">${user.username}</span>
                     <span class="text-fine ml-1">${months[date.getMonth()]} ${date.getDate()} at ${time}:${date.getMinutes()} ${timeOfDay}</span>
                     <span class="dropdown text-fine cursor-pointer ml-1 p-1" style="margin-left: auto;"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="post-content mb-2">${post.body}</div>
+                <div class="post-content mb-2">${post.content}</div>
                 <div class="post-actions">
                     <a href="javascript:likePost(${post.id})">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22.559" height="19.744"

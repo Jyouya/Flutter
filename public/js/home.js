@@ -21,22 +21,12 @@ if (!regex) {
 
 // Listeners
 $(".new-post-input-field").on("input", checkNewPostData);
-// $(document).on("click", "#submit-post-button", handleSubmitPost);
-
-// // Handler functions
-
-// // This functions handles adding a new post button
-// function handleSubmitPost() {
-//     const postData = {
-//         body: $("textarea.new-post-input-field").val()
-//     };
-//     console.log(postData);
-// }
-
-$("#postSubmition").submit(function (event) {
+$("#postSubmition").submit(function(event){
     event.preventDefault();
-    $.post('/posts', $(this).serialize()).then(function (result) {
+    $.post('/api/posts', $(this).serialize()).then(function(result){
         //$('/posts').append(DOMmanipulation(result))
+        alert("(TEMP) Posted succesfully.");
+        window.location.reload();
     });
 });
 

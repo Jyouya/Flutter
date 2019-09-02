@@ -10,10 +10,11 @@ module.exports = function (authorizer) {
     authorizer.register('/profile', ['default', 'basic', 'mod', 'admin'], ['GET']); 
     
     authorizer.register('/api/posts', ['basic', 'mod', 'admin'], ['POST']);
-    authorizer.register('/api/posts', ['default'], ['GET']);
+    authorizer.register('/api/posts', ['default','basic', 'mod', 'admin'], ['GET']);
 
     authorizer.register('/api/regex', ['default'], ['GET'])
-
+    
+    authorizer.register('/api/users', ['default', 'basic', 'mod', 'admin'], ['GET']);
 
     // Test routes
     authorizer.register('/api/restrictedtest', ['basic', 'admin'], ['GET']);
@@ -22,7 +23,7 @@ module.exports = function (authorizer) {
     authorizer.register('/api/authtest', ['basic', 'mod', 'admin'], ['GET', 'POST']);
 
     authorizer.register('/api/trendingtest', ['default'], ['GET']);
-    authorizer.register('/api/users/:',['default'], ['GET']);
+    authorizer.register('/api/users/:', ['default'], ['GET']);
 
 
 

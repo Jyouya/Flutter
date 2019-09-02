@@ -28,7 +28,18 @@ module.exports = (app) => {
         }
     });
 
+    // Gets all users
+    app.get('/api/users', async function (req, res) {
+        const user = req.query.user;
+        res.json(await db.User.findAll({
+            where: { ...user && { id: user } },
+            attributes: ["id", "username", "bannerImg", "avatarImg", "bio"],
+            include: [db.Post]
+        }));
+    });
+
     app.post('/api/posts', async function (req, res) {
+        console.log(req.body);
         await db.Post.create({
             content: req.body.content,
             UserId: req.userId,
@@ -37,6 +48,24 @@ module.exports = (app) => {
         res.json({ msg: 'Post added successfuly' });
     });
 
+    // IF the user uses /api/posts?count=10, will send 10 back; otherwise 20
+    app.get("/api/posts/", async function (req, res) {
+        const count = parseInt(req.query.count) || 20;
+        console.log("================================================ " + count, typeof (count));
+        console.log(`User: "${req.query.user}"`);
+        const user = req.query.user;
+        const output = await db.Post.findAll({
+            where: { ...user && { UserId: user } },
+            limit: count,
+            include: [{
+                model: db.User,
+                attributes: ["username", "avatarImg", "id"]
+            }],
+            order: [['cachedTrendingIndex', 'DESC']],
+            attributes: ['UserId', 'id', 'content', 'createdAt', 'replyId']
+        });
+        res.json(output);
+    });
 
     app.route('/api/restrictedtest')
         .get(function (req, res) {
@@ -58,14 +87,14 @@ module.exports = (app) => {
             res.json(posts);
         });
 
-    app.get('/api/users/:id', async function (req, res) {
-        const id = req.params.id;
-        res.json(await db.User.findOne({
-            where: {
-                id: id
-            }
-        }));
-    });
+    // app.get('/api/users/:id', async function (req, res) {
+    //     const id = req.params.id;
+    //     res.json(await db.User.findOne({
+    //         where: {
+    //             id: id
+    //         }
+    //     }));
+    // });
 
 };
 
