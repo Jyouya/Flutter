@@ -69,7 +69,7 @@ module.exports = (sequelize, DataTypes) => {
         setReplyingTo: function (ReplyingToPost) {
           return this.update({ replyId: replyingToPost.id });
         },
-        
+
       }
     }
   )
@@ -140,10 +140,8 @@ module.exports = (sequelize, DataTypes) => {
   Post.prototype.likePost = async function (user) {
     const like = await this.sequelize.models.Like.findOrCreate({
       where: {
-        [Op.and]: {
-          UserId: user,
-          PostId: this.id
-        }
+        UserId: user,
+        PostId: this.id
       }
     });
   }

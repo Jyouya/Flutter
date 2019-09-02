@@ -12,19 +12,20 @@ describe('Authentication and Authorization', () => {
     // Empty the database
     before((done) => {
         new Promise(resolve => server.on("app_started", resolve)).then(() => {
-            Promise.all([
-                db.Token.destroy({ where: {} }),
-                db.Post.destroy({ where: {} }),
-                db.Like.destroy({ where: {} })
-            ])
+            db.Token.destroy({ where: {} })
+                .then(() => db.Like.destroy({ where: {} }))
+                .then(() => db.Post.destroy({ where: {} }))
                 .then(() => db.User.destroy({ where: {} }))
                 .then(() => done());
         })
     });
 
+    //agent will stay logged in
     const agent = chai.request.agent(server);
+    const agent2 = chai.request.agent(server);
     after((done) => {
         agent.close();
+        agent2.close();
         done();
     })
 
@@ -96,6 +97,7 @@ describe('Authentication and Authorization', () => {
                     res.body.should.have.property('msg').eql('Email or Password is incorrect');
                     done();
                 });
+
         });
 
         it('it should be able to login to the account with the right password', (done) => {
@@ -148,4 +150,71 @@ describe('Authentication and Authorization', () => {
                 });
         });
     });
-})
+
+    describe('Making, liking, and replying to posts', () => {
+
+        it('Creating second user', (done) => {
+            // Create a second user for later tests
+            const user2 = {
+                username: "🦩",
+                password: "Asdfqwerty",
+                email: "flamingo@bird.emoji"
+            };
+            chai.request(server)
+                .post('/api/users')
+                .send(user2)
+                .end(() => done());
+        });
+
+        it('Logging in second user', (done) => {
+            credentials2 = {
+                email: "flamingo@bird.emoji",
+                password: "Asdfqwerty"
+            };
+            agent2
+                .post('/login')
+                .send(credentials2)
+                .end(() => done());
+        });
+
+        let postOneId;
+        let postTwoId;
+        it('User 1 should be able to create a post', (done) => {
+            agent
+                .post('/api/posts')
+                .send({ content: "🤠🤠🤠" })
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('msg').eql('Post added successfully');
+                    postOneId = res.body.postId;
+                    done();
+                });
+        });
+
+        it('User 2 should be able to reply to user 1\'s post', (done) => {
+            agent2
+                .post('/api/posts')
+                .send({ content: "🦩 🦩", replyId: postOneId })
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('msg').eql('Post added successfully');
+                    postTwoId = res.body.postId;
+                    done();
+                });
+        });
+
+        it('User 1 should be able to like user 2\'s post', (done) => {
+            agent
+                .post(`/api/likes/${postTwoId}`)
+                .send()
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('msg').eql(`Liked post #${postTwoId}`);
+                    done();
+                });
+        });
+    });
+});

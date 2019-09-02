@@ -39,13 +39,16 @@ module.exports = (app) => {
     });
 
     app.post('/api/posts', async function (req, res) {
-        console.log(req.body);
-        await db.Post.create({
+        // console.log(req.body);
+        const newPost = await db.Post.create({
             content: req.body.content,
             UserId: req.userId,
             replyId: req.body.replyId || null,
         });
-        res.json({ msg: 'Post added successfuly' });
+        res.json({
+            msg: 'Post added successfully',
+            postId: newPost.id
+        });
     });
 
     // IF the user uses /api/posts?count=10, will send 10 back; otherwise 20
@@ -68,11 +71,16 @@ module.exports = (app) => {
     });
 
     app.route('/api/likes/:post')
-        .post(async function(req, res) {
-            console.log(`${req.userId} liked ${req.params.post}`)
+        .post(async function (req, res) {
+            // console.log(`${req.userId} liked ${req.params.post}`)
             const post = await db.Post.findByPk(req.params.post);
             // console.log(post);
-            post.likePost(req.userId);
+            if (post) {
+                await post.likePost(req.userId);
+                res.json({ msg: `Liked post #${req.params.post}` })
+            } else {
+                res.json({ msg: 'Post not found' });
+            }
         });
 
     app.route('/api/restrictedtest')
@@ -95,7 +103,7 @@ module.exports = (app) => {
             res.json(posts);
         });
 
-    
+
 
     // app.get('/api/users/:id', async function (req, res) {
     //     const id = req.params.id;
