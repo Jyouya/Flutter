@@ -55,6 +55,6 @@ async function checkNewPostData() {
 }
 
 function updateButton() {
-    if (validNewPost) $("#submit-post-button").removeAttr("disabled");
-    else $("#submit-post-button").attr("disabled", "");
+    if (validNewPost) $("#submit-post-button").prop("disabled", false);
+    else $("#submit-post-button").prop("disabled", true);
 }
