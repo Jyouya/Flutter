@@ -67,6 +67,14 @@ module.exports = (app) => {
         res.json(output);
     });
 
+    app.route('/api/likes/:post')
+        .post(async function(req, res) {
+            console.log(`${req.userId} liked ${req.params.post}`)
+            const post = await db.Post.findByPk(req.params.post);
+            // console.log(post);
+            post.likePost(req.userId);
+        });
+
     app.route('/api/restrictedtest')
         .get(function (req, res) {
             res.json({
@@ -86,6 +94,8 @@ module.exports = (app) => {
             });
             res.json(posts);
         });
+
+    
 
     // app.get('/api/users/:id', async function (req, res) {
     //     const id = req.params.id;

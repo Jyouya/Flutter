@@ -35,6 +35,7 @@ $("#postSubmition").submit(function(event){
 // This handles when the user likes a post
 function likePost(id) {
     console.log("Liking post ", id);
+    $.post(`/api/likes/${id}`);
     // make a HTTP post to the likes table
 }
 

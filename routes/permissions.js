@@ -16,6 +16,8 @@ module.exports = function (authorizer) {
     
     authorizer.register('/api/users', ['default', 'basic', 'mod', 'admin'], ['GET']);
 
+    authorizer.register('/api/likes/:', ['basic', 'mod', 'admin'], ['POST']);
+
     // Test routes
     authorizer.register('/api/restrictedtest', ['basic', 'admin'], ['GET']);
     authorizer.register('/api/restrictedtest', ['admin'], ['POST']);
