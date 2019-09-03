@@ -12,7 +12,6 @@ $(window).on('mousewheel', function (event) {
     }
 
     // Detects offset 
-    console.log($("main").scrollTop())
     if ($("main").scrollTop() >= 300 ) {
         $("#to-top").addClass("show");
         // console.log("Greater than 300!")
