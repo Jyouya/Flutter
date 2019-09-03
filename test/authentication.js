@@ -237,7 +237,6 @@ describe('Endpoint Tests', function () {
                 .post('/api/authtest')
                 .send({ data: 'dummy' })
                 .end((err, res) => {
-                    console.log(res.body);
                     res.should.have.status(200);
                     res.body.should.not.have.property('msg');
                     done();
