@@ -100,7 +100,8 @@ async function loadLikedPosts() {
     await (getUserLikes().then(function (posts) {
         posts.forEach(post => {
             console.log("liked post: ", post);
-            prependToLikes(post);
+            console.log("Checking: ", userId, post.User.id)
+            if (userId != post.Post.User.id) prependToLikes(post);
         })
     }))
 }
