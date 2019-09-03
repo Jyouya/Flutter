@@ -1,5 +1,12 @@
 class ReplyForm {
     constructor(selector) {
+        if (ReplyForm.openForms[selector]) {
+            for (let k in ReplyForm.openForms[selector]) {
+                this.k = ReplyForm.openForms[selector].k;
+            }
+            return;
+        }
+        this.selector = selector;
         this.replyToNode = $(selector);
         this.node = $(
             `<div class="new-post-container p-3 bd-bottom hover-fade">
@@ -17,11 +24,14 @@ class ReplyForm {
         this.form = this.node.find('form');
 
         // Arrow functions to keep this bound when we use them as callbacks
-        this.close = () => this.node.remove();
+        this.close = () => {
+            this.node.remove();
+            delete ReplyForm.openForms[this.selector];
+        };
         this.send = async (event) => {
             event.preventDefault();
             console.log(this.form.serialize());
-            const formData = {...$(this.form).serialize(), replyId: this.replyToNode.attr('data-post-id')};
+            const formData = { ...$(this.form).serialize(), replyId: this.replyToNode.attr('data-post-id') };
             console.log(formData);
             await $.post('/api/posts', formData);
             // Refresh the page here?
@@ -39,7 +49,7 @@ class ReplyForm {
         const submitButton = this.form.children('button');
 
         // regex validation
-        this.node.find('textarea').on('input',function() {
+        this.node.find('textarea').on('input', function () {
             console.log($(this).val());
             if (validate($(this).val())) {
                 submitButton.prop('disabled', false);
@@ -51,5 +61,8 @@ class ReplyForm {
 
         this.form.submit(this.send);
         this.node.children('.close-reply').click(this.close)
+        ReplyForm.openForms[selector] = this;
     }
 }
+
+ReplyForm.openForms = {};
