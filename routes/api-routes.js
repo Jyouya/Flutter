@@ -9,8 +9,8 @@ module.exports = (app) => {
     require('./regex-route')(app);
 
     app.post('/logout', async function(req, res) {
-        db.Token.destroy({where: {id: req.sessionId}});
-        db.Token.deleteExpiredForUser(req.userId);
+        await db.Token.destroy({where: {id: req.sessionId}});
+        await db.Token.deleteExpiredForUser(req.userId);
         res.clearCookie('jwt');
         res.json({msg: 'Logged Out'});
     });
