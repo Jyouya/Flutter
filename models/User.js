@@ -33,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         bio: {
             type: DataTypes.STRING,
-            defaultValue: "Nothing to see here."
+            defaultValue: "🙈🙉🙊"
         },
         passHash: {
             type: DataTypes.BLOB,
@@ -53,6 +53,12 @@ module.exports = function(sequelize, DataTypes) {
         // User.hasMany(models.Post); // posts aren't created yet
         User.hasMany(models.Token);
         User.hasMany(models.Post);
+        
+        User.belongsToMany(User, {
+            as: 'Followers',
+            through: 'Follow'
+        });
+
     };
 
     return User;

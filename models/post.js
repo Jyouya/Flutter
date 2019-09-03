@@ -1,5 +1,6 @@
 'use strict';
 const emojiRegex = require('../emoji-validation-regex');
+const Op = require('sequelize').Op;
 
 // constants for calculating cache update frequency.
 const n = 18 * Math.log(3) / Math.log(6);
@@ -44,8 +45,8 @@ module.exports = (sequelize, DataTypes) => {
           console.log(`age: ${age}, cacheExpiration: ${new Date(nextExpiration) - new Date()}`)
 
 
-          this.update({cacheExpiration: nextExpiration});
-          
+          this.update({ cacheExpiration: nextExpiration });
+
           // recalculate index
           this.recalculateTrendingIndex();
         }
@@ -70,7 +71,8 @@ module.exports = (sequelize, DataTypes) => {
         },
 
       }
-    });
+    }
+  )
 
   {
     // Define constants for our formula
@@ -133,6 +135,15 @@ module.exports = (sequelize, DataTypes) => {
 
       this.update({ cachedTrendingIndex: this._trendingIndex });
     }
+  }
+
+  Post.prototype.likePost = async function (user) {
+    const like = await this.sequelize.models.Like.findOrCreate({
+      where: {
+        UserId: user,
+        PostId: this.id
+      }
+    });
   }
 
   // Have user like their own post

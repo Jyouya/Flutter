@@ -39,13 +39,16 @@ module.exports = (app) => {
     });
 
     app.post('/api/posts', async function (req, res) {
-        console.log(req.body);
-        await db.Post.create({
+        // console.log(req.body);
+        const newPost = await db.Post.create({
             content: req.body.content,
             UserId: req.userId,
             replyId: req.body.replyId || null,
         });
-        res.json({ msg: 'Post added successfuly' });
+        res.json({
+            msg: 'Post added successfully',
+            postId: newPost.id
+        });
     });
 
     // IF the user uses /api/posts?count=10, will send 10 back; otherwise 20
@@ -67,6 +70,19 @@ module.exports = (app) => {
         res.json(output);
     });
 
+    app.route('/api/likes/:post')
+        .post(async function (req, res) {
+            // console.log(`${req.userId} liked ${req.params.post}`)
+            const post = await db.Post.findByPk(req.params.post);
+            // console.log(post);
+            if (post) {
+                await post.likePost(req.userId);
+                res.json({ msg: `Liked post #${req.params.post}` })
+            } else {
+                res.json({ msg: 'Post not found' });
+            }
+        });
+
     app.route('/api/restrictedtest')
         .get(function (req, res) {
             res.json({
@@ -86,6 +102,40 @@ module.exports = (app) => {
             });
             res.json(posts);
         });
+
+    // Follower API test endpoints.
+
+
+    app.route('/api/follows') // return who is following you
+        .get(async function (req, res) {
+            res.json(await db.User.findOne({
+                where: {
+                    id: req.userId
+                },
+                include: [
+                    {
+                        model: db.User,
+                        as: 'Followers',
+
+                        attributes: ['username', 'id', 'avatarImg']
+                    }
+                ],
+                attributes: []
+            }));
+        });
+
+    app.post('/api/follows/:userId', async function (req, res) {
+        console.log(db.User);
+        const user = await db.User.findOne({ where: { id: req.userId } });
+        await user.addFollower(req.params.userId);
+
+        // await db.Followers.create({
+        //     UserId: req.userId,
+        //     FollowerId: req.params.userId
+        // });
+        res.json({ msg: `Followed User ${req.params.userId}` });
+    });
+
 
     // app.get('/api/users/:id', async function (req, res) {
     //     const id = req.params.id;
