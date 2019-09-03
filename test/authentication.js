@@ -8,7 +8,8 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Authentication and Authorization', () => {
+describe('Endpoint Tests', function() {
+    this.timeout(15000);
     // Empty the database
     before((done) => {
         new Promise(resolve => server.on("app_started", resolve))

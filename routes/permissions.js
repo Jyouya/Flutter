@@ -1,5 +1,6 @@
 module.exports = function (authorizer) {
     authorizer.register('/login', ['default'], ['GET','POST'], {ignore: true});
+    authorizer.register('/logout', ['default'], ['POST']);
     authorizer.register('/register', ['default'], ['GET'], {ignore:true});
 
     authorizer.register('/register', ['default', 'basic', 'mod', 'admin'], ['GET']);

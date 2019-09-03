@@ -8,6 +8,13 @@ module.exports = (app) => {
 
     require('./regex-route')(app);
 
+    app.post('/logout', async function(req, res) {
+        db.Token.destroy({where: {id: req.sessionId}});
+        db.Token.deleteExpiredForUser(req.userId);
+        res.clearCookie('jwt');
+        res.json({msg: 'Logged Out'});
+    });
+
     // A test route for automated testing.  Don't change.
     app.post('/api/authtest', async function (req, res) {
         try {

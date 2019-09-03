@@ -50,6 +50,7 @@ authorizer.mw = async function (req, res, next) {
         // console.log(user.userId);
         req.userId = user.userId; // attach user id to 
         req.userType = user.type; // in case an endpoint wants it.
+        req.sessionId = user.tokenId;
 
         let scopePath;
         if (scopes[req.path]) {
