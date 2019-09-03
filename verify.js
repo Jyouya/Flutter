@@ -56,6 +56,7 @@ module.exports = async function verify(token, res) {
     }
 
     return {
+        tokenId: decoded.tokenId,
         userId: decoded.userId,
         type: decoded.type,
     }
