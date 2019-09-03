@@ -103,6 +103,25 @@ module.exports = (app) => {
             res.json(posts);
         });
 
+    // Follower API test endpoints.
+
+
+    app.route('/api/follows') // return who is following you
+        .get(async function (req, res) {
+            db.User.findOne({
+                where: {
+                    id: req.userId
+                },
+                include: ['Followers']
+            });
+        });
+
+    app.post('/api/follows/:userId', async function (req, res) {
+        db.Follow.create({
+            UserId: req.userId,
+            FollowerId: req.params.userId
+        });
+    });
 
 
     // app.get('/api/users/:id', async function (req, res) {
