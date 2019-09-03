@@ -23,6 +23,24 @@ module.exports = function (app) {
         }
     });
 
+    app.get('/edit-profile', function (req, res) {
+        // Are we looking for a specific profile?
+        if (req.query.id) {
+            // Serve the file, front end JS will load the rest
+            res.sendFile(path.join(__dirname, "../public/options.html"));
+        } 
+
+        // Are we logged in?
+        else if (req.userId) { 
+            // Redirect to the user's profile
+            res.redirect(`/edit-profile?id=${req.userId}`)
+        } 
+        
+        else {
+            res.redirect('/login')
+        }
+    });
+
     app.get("/login", function (req, res) {
         res.sendFile(path.join(__dirname, "../public/login.html"));
     });
