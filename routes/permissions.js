@@ -5,7 +5,6 @@ module.exports = function (authorizer) {
 
     authorizer.register('/register', ['default', 'basic', 'mod', 'admin'], ['GET']);
     authorizer.register('/api/users', ['default', 'admin'], ['POST']); // Account registration
-
     
     authorizer.register('/', ['default', 'basic', 'mod', 'admin'], ['GET']);
     authorizer.register('/home', ['default', 'basic', 'mod', 'admin'], ['GET']);

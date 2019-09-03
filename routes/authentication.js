@@ -13,31 +13,8 @@ const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z]).{8,}/;
 module.exports = function (app, db) {
     app.post('/login', async function (req, res) {
         const user = await authenticate(req.body.email, req.body.password);
-        if (!user) {
-            res.status(401).json({ msg: 'Email or Password is incorrect' });
-            return;
-        };
-        const { id } = user;
-
-        // Get uuid for new JWT
-        const { id: tokenId } = await db.Token.create({
-            UserId: id
-        });
-        try {
-            res.cookie('jwt', await jwtSignP(
-                {
-                    userId: id,
-                    tokenId: tokenId,
-                    type: user.type
-                },
-                process.env.JWT_SECRET
-            )).send();
-        } catch (err) {
-            console.log(err);
-            res.json(err);
-            return;
-            // res.json({ msg: 'Login failed.  Please try again later.' });
-        }
+        await login(res, req.body.email, req.body.password);
+        res.send();
     });
 
     app.post('/api/users', async function (req, res) {
@@ -71,7 +48,8 @@ module.exports = function (app, db) {
                     passHash: hash,
                     salt: salt
                 });
-                res.json({ msg: 'Account creation successful' })
+                await login(res, req.body.email, req.body.password);
+                res.json({ msg: 'Account creation successful', status: 1})
             } catch (err) {
                 // Cases where we expect to catch an error:
                 // Username was blank OR
@@ -101,5 +79,34 @@ module.exports = function (app, db) {
             return false;
         }
         return user;
+    }
+
+    async function login(res, email, password) {
+        const user = await authenticate(email, password);
+        if (!user) {
+            res.status(401).json({ msg: 'Email or Password is incorrect' });
+            return;
+        };
+        const { id } = user;
+
+        // Get uuid for new JWT
+        const { id: tokenId } = await db.Token.create({
+            UserId: id
+        });
+        try {
+            res.cookie('jwt', await jwtSignP(
+                {
+                    userId: id,
+                    tokenId: tokenId,
+                    type: user.type
+                },
+                process.env.JWT_SECRET
+            ));
+        } catch (err) {
+            console.log(err);
+            res.json(err);
+            return;
+            // res.json({ msg: 'Login failed.  Please try again later.' });
+        }
     }
 };
