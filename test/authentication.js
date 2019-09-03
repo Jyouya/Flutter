@@ -8,7 +8,7 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Endpoint Tests', function() {
+describe('Endpoint Tests', function () {
     this.timeout(15000);
     // Empty the database
     before((done) => {
@@ -217,4 +217,31 @@ describe('Endpoint Tests', function() {
                 });
         });
     });
+
+    describe('Logout', () => {
+        it('User 1 should be able to log out', (done) => {
+            agent
+                .post('/logout')
+                .send()
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('msg').eql('Logged Out');
+                    res.should.not.have.cookie('jwt');
+                    done();
+                })
+        });
+
+        it('User 1 should no longer be able to access restricted endpoints', (done) => {
+            agent
+                .post('/api/authtest')
+                .send({ data: 'dummy' })
+                .end((err, res) => {
+                    console.log(res.body);
+                    res.should.have.status(200);
+                    res.body.should.not.have.property('msg');
+                    done();
+                });
+        })
+    })
 });
