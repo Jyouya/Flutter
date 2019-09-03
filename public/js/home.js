@@ -5,6 +5,9 @@ let regex = sessionStorage.getItem('regex');
 
 let regexPromise;
 
+// Gets user's profile data
+const me = $.get("/api/users/me");
+
 // Check if we have one in localstorage
 if (!regex) {
     regexPromise = $.get('/api/regex');
@@ -59,3 +62,7 @@ function updateButton() {
     if (validNewPost) $("#submit-post-button").prop("disabled", false);
     else $("#submit-post-button").prop("disabled", true);
 }
+
+me.then((user) => {
+    $("#my-avatar").attr("src", user.avatarImg);
+})
