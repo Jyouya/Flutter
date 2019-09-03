@@ -45,6 +45,23 @@ module.exports = (app) => {
         }));
     });
 
+    // Gets all users
+    app.get('/api/users/me', async function (req, res) {
+        const user = req.userId;
+        res.json(await db.User.findOne({
+            where: { id: user },
+            attributes: ["id", "username", "email", "bannerImg", "avatarImg", "bio"],
+            include: [
+                {
+                    model: db.User,
+                    as: 'Followers',
+
+                    attributes: ['username', 'id', 'avatarImg']
+                }
+            ],
+        }));
+    });
+
     // Updates a users
     app.put('/api/users', async function (req, res) {
         const user = req.body;
