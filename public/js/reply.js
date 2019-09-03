@@ -13,20 +13,43 @@ class ReplyForm {
                 <a class="close-reply">X</a>
             </div>`);
 
-        this.node.appendTo(this.replyToNode);
-        
+        this.replyToNode.after(this.node);
+        this.form = this.node.find('form');
+
         // Arrow functions to keep this bound when we use them as callbacks
         this.close = () => this.node.remove();
         this.send = async (event) => {
             event.preventDefault();
-            await $.post('/api/posts', this.form.serialize());
+            console.log(this.form.serialize());
+            const formData = {...$(this.form).serialize(), replyId: this.replyToNode.attr('data-post-id')};
+            console.log(formData);
+            await $.post('/api/posts', formData);
             // Refresh the page here?
             window.location.reload();
         }
 
-        this.validate = async () => 
+        // Set the validation function once the regex loads
+        let validate = () => true;
+        regexPromise.then(() => {
+            validate = (val) => {
+                return regex.test(val);
+            }
+        });
 
-        this.form = this.node.find('form').submit(this.send);
-        this.children('.close-reply').click(this.close)
+        const submitButton = this.form.children('button');
+
+        // regex validation
+        this.node.find('textarea').on('input',function() {
+            console.log($(this).val());
+            if (validate($(this).val())) {
+                submitButton.prop('disabled', false);
+            } else {
+                submitButton.prop('disabled', true);
+            }
+        })
+
+
+        this.form.submit(this.send);
+        this.node.children('.close-reply').click(this.close)
     }
 }
