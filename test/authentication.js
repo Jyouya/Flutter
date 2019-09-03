@@ -11,13 +11,12 @@ chai.use(chaiHttp);
 describe('Authentication and Authorization', () => {
     // Empty the database
     before((done) => {
-        new Promise(resolve => server.on("app_started", resolve)).then(() => {
-            db.Token.destroy({ where: {} })
-                .then(() => db.Like.destroy({ where: {} }))
-                .then(() => db.Post.destroy({ where: {} }))
-                .then(() => db.User.destroy({ where: {} }))
-                .then(() => done());
-        })
+        new Promise(resolve => server.on("app_started", resolve))
+            .then(() => db.Token.destroy({ where: {} }))
+            .then(() => db.Like.destroy({ where: {} }))
+            .then(() => db.Post.destroy({ where: {} }))
+            .then(() => db.User.destroy({ where: {} }))
+            .then(() => done());
     });
 
     //agent will stay logged in

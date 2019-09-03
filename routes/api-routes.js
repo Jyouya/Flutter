@@ -108,19 +108,32 @@ module.exports = (app) => {
 
     app.route('/api/follows') // return who is following you
         .get(async function (req, res) {
-            db.User.findOne({
+            res.json(await db.User.findOne({
                 where: {
                     id: req.userId
                 },
-                include: ['Followers']
-            });
+                include: [
+                    {
+                        model: db.User,
+                        as: 'Followers',
+
+                        attributes: ['username', 'id', 'avatarImg']
+                    }
+                ],
+                attributes: []
+            }));
         });
 
     app.post('/api/follows/:userId', async function (req, res) {
-        db.Follow.create({
-            UserId: req.userId,
-            FollowerId: req.params.userId
-        });
+        console.log(db.User);
+        const user = await db.User.findOne({ where: { id: req.userId } });
+        await user.addFollower(req.params.userId);
+
+        // await db.Followers.create({
+        //     UserId: req.userId,
+        //     FollowerId: req.params.userId
+        // });
+        res.json({ msg: `Followed User ${req.params.userId}` });
     });
 
 
