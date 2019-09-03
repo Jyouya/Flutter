@@ -38,6 +38,27 @@ module.exports = (app) => {
         }));
     });
 
+    // Updates a users
+    app.put('/api/users', async function (req, res) {
+        const user = req.body;
+        try {
+            (await db.User.update({
+                username: user.username,
+                email: user.email,
+                bio: user.bio,
+                avatarImg: user.avatarImg,
+                bannerImg: user.bannerImg
+            },
+            {
+                where: { id: req.userId },
+            }));
+            res.end();
+        } catch(err) {
+            console.log("==========================", err);
+            res.json(err);
+        }
+    });
+
     app.post('/api/posts', async function (req, res) {
         // console.log(req.body);
         const newPost = await db.Post.create({

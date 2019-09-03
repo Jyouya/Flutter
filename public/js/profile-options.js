@@ -6,8 +6,8 @@ let userData = null;
 // Get the id flag from url 
 let query = window.location.href;
 if (query.includes("id=")) {
-    userID = query.split("id=")[1];
-    console.log(userID);
+    userId = query.split("id=")[1];
+    console.log(userId);
     userData = getUserInfo(userId);
 } else {
     console.log("NO ID IN URL!");
@@ -30,3 +30,31 @@ function autofillForms() {
     $("#bannerImg-input").val(userData.bannerImg);
     $("#bio-input").val(userData.bio);
 }
+
+
+// Putting to api
+$("form").submit(function(event) {
+    event.preventDefault()
+    let data = $(this).serialize();
+    console.log("Information to put: ", data)
+    // $.post('/login', $(this).serialize() ).then( () => {
+    //     window.location.href = "/";
+    // });
+    $.ajax({
+        url: '/api/users',
+        method: "PUT",
+        data: data,
+        success: function(res) {
+            console.log(res);
+            if (res) {
+                res.errors.forEach(item => {
+                    console.log(item)
+                    alert("ERROR: " + item.message)
+                })
+            } else {
+                alert("Updated succesfully!");
+                window.location.href = "/profile"
+            }
+        }
+    })
+})
