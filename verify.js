@@ -7,12 +7,14 @@ const jwtSignP = promisify(jwt.sign);
 // Takes a JWT and http request as input.
 // Outputs a promise of use {userId, type} or throws an error if authentication fails.
 // Catch error with .catch()
-module.exports = async function verify(token) {
+module.exports = async function verify(token, res) {
     // Throws error if token wasn't signed by us.
     const decoded = await jwtVerifyP(token, process.env.JWT_SECRET);
 
+    // console.log(new Date(decoded.iat * 1000));
     // Token is expired
     if (decoded.iat * 1000 + 1200000 < new Date().getTime()) {
+    // if (decoded.iat * 1000 + 30000 < new Date().getTime()) {
         // check when the token was last used
         const dbToken = await db.Token.findOne({
             where: {
@@ -20,13 +22,9 @@ module.exports = async function verify(token) {
             }
         });
 
-        // if the user has been inactive, fail authentication
-        if (dbToken.updatedAt * 1000 + 1200000 < new Date().getTime()) {
-            db.Token.delete({
-                where: {
-                    id: dbToken.id
-                }
-            });
+        if (new Date() - dbToken.updatedAt > 1200000) {
+            // console.log('session expired');
+            db.Token.deleteExpiredForUser(decoded.userId);
             throw "Authentication Failed";
         }
 

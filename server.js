@@ -32,7 +32,7 @@ require('./routes/html-routes')(app);
 
 
 
-models.sequelize.sync().then(() => {
+models.sequelize.sync({force: true}).then(() => {
 
   https.createServer({
       key: fs.readFileSync('server.key'),
