@@ -62,6 +62,15 @@ module.exports = (app) => {
         }));
     });
 
+    // Checks login
+    app.get("/check-login", async function (req, res) {
+        if (req.userId) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+    });
+
     // Updates a users
     app.put('/api/users', async function (req, res) {
         const user = req.body;
