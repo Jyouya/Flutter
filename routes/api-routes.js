@@ -40,9 +40,30 @@ module.exports = (app) => {
         const user = req.query.user;
         res.json(await db.User.findAll({
             where: { ...user && { id: user } },
-            attributes: ["id", "username", "bannerImg", "avatarImg", "bio"],
+            attributes: ["id", "username", "email", "bannerImg", "avatarImg", "bio"],
             include: [db.Post]
         }));
+    });
+
+    // Updates a users
+    app.put('/api/users', async function (req, res) {
+        const user = req.body;
+        try {
+            (await db.User.update({
+                username: user.username,
+                email: user.email,
+                bio: user.bio,
+                avatarImg: user.avatarImg,
+                bannerImg: user.bannerImg
+            },
+            {
+                where: { id: req.userId },
+            }));
+            res.end();
+        } catch(err) {
+            console.log("==========================", err);
+            res.json(err);
+        }
     });
 
     app.post('/api/posts', async function (req, res) {

@@ -10,6 +10,7 @@ module.exports = function (authorizer) {
     authorizer.register('/', ['default', 'basic', 'mod', 'admin'], ['GET']);
     authorizer.register('/home', ['default', 'basic', 'mod', 'admin'], ['GET']);
     authorizer.register('/profile', ['default', 'basic', 'mod', 'admin'], ['GET']); 
+    authorizer.register('/edit-profile', ['default', 'basic', 'mod', 'admin'], ['GET']); 
     
     authorizer.register('/api/posts', ['basic', 'mod', 'admin'], ['POST']);
     authorizer.register('/api/posts', ['default','basic', 'mod', 'admin'], ['GET']);
@@ -17,6 +18,7 @@ module.exports = function (authorizer) {
     authorizer.register('/api/regex', ['default'], ['GET'])
     
     authorizer.register('/api/users', ['default', 'basic', 'mod', 'admin'], ['GET']);
+    authorizer.register('/api/users', ['basic', 'mod', 'admin'], ['PUT']);
 
     authorizer.register('/api/likes/:', ['basic', 'mod', 'admin'], ['POST']);
 
