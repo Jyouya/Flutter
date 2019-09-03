@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         avatarImg: {
             type: DataTypes.STRING,
-            defaut: "/images/blank-avatar.jpg"
+            defaultValue: "/images/blank-avatar.jpg"
             // defaultValue: functionThatGeneratesRandomEmojiURL()
         },
         bio: {
