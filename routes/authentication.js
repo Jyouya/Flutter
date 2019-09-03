@@ -49,7 +49,7 @@ module.exports = function (app, db) {
                     salt: salt
                 });
                 await login(res, req.body.email, req.body.password);
-                res.json({ msg: 'Account creation successful' })
+                res.json({ msg: 'Account creation successful', status: 1})
             } catch (err) {
                 // Cases where we expect to catch an error:
                 // Username was blank OR

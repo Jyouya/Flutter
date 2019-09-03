@@ -45,7 +45,7 @@ module.exports = (app) => {
         }));
     });
 
-    // Gets all users
+    // Gets signed in user
     app.get('/api/users/me', async function (req, res) {
         const user = req.userId;
         res.json(await db.User.findOne({
