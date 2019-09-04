@@ -5,6 +5,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../server');
 const should = chai.should();
+// const getRecommendations = require('../functions/recommendFollowers');
 
 chai.use(chaiHttp);
 
@@ -242,5 +243,27 @@ describe('Endpoint Tests', function () {
                     done();
                 });
         })
-    })
+    });
+
+
+    // describe('Follow Recommendations', () => {
+    //     describe('Test recommendations', () => {
+    //         before((done) => {
+    //             require('../seeders/seedUsers').then(() => {
+    //                 return require('../seeders/seedFollows')
+    //             })
+    //         })
+    //         it('just print it out', (done) => {
+    //             db.User.findOne({
+    //                 where: {
+    //                     username: '💞'
+    //                 }
+    //             }).then(user => {
+    //                 console.log(user);
+    //                 return getRecommendations(user.id);
+    //             }).then(done);
+    //         })
+    //     })
+    // });
+
 });

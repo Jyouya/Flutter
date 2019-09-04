@@ -44,8 +44,8 @@ function likePost(id) {
 
 // This handles when the user likes a post
 function replyPost(id) {
+    new ReplyForm(`#post-${id}`);
     console.log("Replying to post ", id);
-    // make a HTTP post to the likes table
 }
 
 // This function checks the user's inputted data
