@@ -32,30 +32,24 @@ function autofillForms() {
     $("#bio-input").val(userData.bio);
 }
 
-
 // Putting to api
 $("form").submit(function(event) {
     event.preventDefault()
     let data = $(this).serialize();
     console.log("Information to put: ", data)
-    // $.post('/login', $(this).serialize() ).then( () => {
-    //     window.location.href = "/";
-    // });
     $.ajax({
         url: '/api/users',
         method: "PUT",
-        data: data,
-        success: function(res) {
-            console.log(res);
-            if (res) {
-                res.errors.forEach(item => {
-                    console.log(item)
-                    alert("ERROR: " + item.message)
-                })
-            } else {
-                alert("Updated succesfully!");
-                window.location.href = "/profile"
-            }
-        }
-    })
+        data: data
+    }).then(function() {
+        window.location.href = "/profile"
+    }).catch(function (data) {
+        data.responseJSON.errors.forEach(function (error) {
+            const inputElement = $(`input[name="${error.path}"]`);
+            inputElement.addClass("flash-input-class");
+            setTimeout(() => {
+                inputElement.removeClass("flash-input-class");
+            }, 1000);
+        });
+    });
 })

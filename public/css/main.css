@@ -261,3 +261,15 @@ nav { position: relative; }
     fill: none;
     stroke: var(--bright-2);
 }
+
+/* Flash animation for bad inputs */
+
+@keyframes flash-input {
+    from {background-color: var(--bright-1)}
+    to {background-color: var(--white)}
+}
+
+.flash-input-class {
+    animation-name: flash-input;
+    animation-duration: 1000ms;
+}

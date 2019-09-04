@@ -12,9 +12,13 @@ const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z]).{8,}/;
 
 module.exports = function (app, db) {
     app.post('/login', async function (req, res) {
-        const user = await authenticate(req.body.email, req.body.password);
-        await login(res, req.body.email, req.body.password);
-        res.send();
+        try {
+            const user = await authenticate(req.body.email, req.body.password);
+            await login(res, req.body.email, req.body.password);
+            res.send();
+        } catch (err) {
+            res.status(400).json({msg: err})
+        }
     });
 
     app.post('/api/users', async function (req, res) {
@@ -29,17 +33,18 @@ module.exports = function (app, db) {
                 }
             });
         } catch (err) {
-            res.json({ msg: 'Must provide an email address and username' });
+            res.status(400).json({ msg: 'Must provide an email address and username' });
             return;
         }
 
         if (user && user.email == req.body.email) {
-            res.json({ msg: 'An account with that email already exists' });
+            res.status(400).json({ msg: 'An account with that email already exists' });
         } else if (user && user.username == req.body.username) {
-            res.json({ msg: 'An account with that username already exists' })
+            res.status(400).json({ msg: 'An account with that username already exists' })
+        } else if (!passwordRegExp.exec(req.body.password)) {
+            res.status(400).json({ msg: 'Password must be at least 8 characters and contain an upper and lowercase letter'})
         } else {
             try {
-                if (!passwordRegExp.exec(req.body.password)) throw 'Password must be at least 8 characters and contain an upper and lowercase letter'
                 const salt = await randomBytesP(256);
                 const hash = await scryptP(req.body.password, salt, 256);
                 await db.User.create({
@@ -47,17 +52,18 @@ module.exports = function (app, db) {
                     email: req.body.email,
                     passHash: hash,
                     salt: salt
-                });
+                })
                 await login(res, req.body.email, req.body.password);
-                res.json({ msg: 'Account creation successful', status: 1})
+                res.json({ msg: 'Account creation successful'})
             } catch (err) {
                 // Cases where we expect to catch an error:
                 // Username was blank OR
                 // Password fails validation
                 // Username contains non-emoji
-                res.json({ msg: err });
+                res.status(400).json({ msg: err });
             }
         }
+
     });
 
     async function authenticate(email = "", password = "") {

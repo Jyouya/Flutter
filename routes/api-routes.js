@@ -32,7 +32,6 @@ module.exports = (app) => {
                 msg: `Hello ${username}`
             });
         } catch (err) {
-            console.log(err);
             res.status(403).json({ msg: err });
         }
     });
@@ -87,13 +86,13 @@ module.exports = (app) => {
                 avatarImg: user.avatarImg,
                 bannerImg: user.bannerImg
             },
-                {
-                    where: { id: req.userId },
-                }));
+            {
+                where: { id: req.userId },
+            }));
             res.end();
         } catch (err) {
             console.log("==========================", err);
-            res.json(err);
+            res.status(400).json(err);
         }
     });
 
