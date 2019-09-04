@@ -48,7 +48,7 @@ async function showPosts() {
                 <div class="post-content mb-2">${post.content}</div>
                 <div class="post-actions">
                     <a href="javascript:likePost(${post.id})">
-                        <svg class="fill like-btn" data-state="unliked" xmlns="http://www.w3.org/2000/svg" width="24.559" height="21.747" viewBox="0 0 24.559 21.747">
+                        <svg class="fill like-btn" id="like-${post.id}" data-state="${post.Liked ? 'liked' : 'unliked'}" xmlns="http://www.w3.org/2000/svg" width="24.559" height="21.747" viewBox="0 0 24.559 21.747">
                             <path id="Union_10" data-name="Union 10" d="M9.623,19.044,1.895,11.17a6.667,6.667,0,0,1,.467-9.746,6.632,6.632,0,0,1,8.918.661A6.636,6.636,0,0,1,20.2,1.424a6.671,6.671,0,0,1,.467,9.751l-7.728,7.874a2.315,2.315,0,0,1-3.313,0Z" transform="translate(1 1.003)"/>
                         </svg>
                     </a>
