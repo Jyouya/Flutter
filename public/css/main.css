@@ -240,3 +240,12 @@ nav { position: relative; }
 .who-to-follow {
     overflow: hidden;
 }
+
+#to-top {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+}
+
+#to-top.show {
+    opacity: 1;
+}

@@ -19,6 +19,8 @@ module.exports = function (authorizer) {
     authorizer.register('/api/users', ['default', 'basic', 'mod', 'admin'], ['GET']);
     authorizer.register('/api/users', ['basic', 'mod', 'admin'], ['PUT']);
     authorizer.register('/api/users/me', ['basic', 'mod', 'admin'], ['GET']);
+    
+    authorizer.register('/api/likes/user/:', ['default', 'basic', 'mod', 'admin'], ['GET']);
 
     authorizer.register('/check-login', ['default', 'basic', 'mod', 'admin'], ['GET']);
     

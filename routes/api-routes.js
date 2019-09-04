@@ -104,6 +104,21 @@ module.exports = (app) => {
             postId: newPost.id
         });
     });
+    
+    app.get('/api/likes/user/:id', async function (req, res) {
+        const queriedUserId = req.params.id;
+        const likedPosts = await db.Like.findAll({
+            where: {UserId: queriedUserId},
+            include: [{
+                model: db.Post,
+                include: db.User
+            },
+            {
+                model: db.User
+            }]
+        });
+        res.json(likedPosts);
+    });
 
     // IF the user uses /api/posts?count=10, will send 10 back; otherwise 20
     app.get("/api/posts/", async function (req, res) {
