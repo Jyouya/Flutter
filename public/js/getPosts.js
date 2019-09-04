@@ -32,7 +32,7 @@ async function showPosts() {
             timeOfDay = "PM";
         }
         
-        postsContainer.prepend(`
+        postsContainer.append(`
         <div class="post bd-bottom hover-fade p-3" data-post-id="${post.id}" id="post-${post.id}">
             <a href="/profile?id=${post.User.id}">
                 <div class="avatar-container">
