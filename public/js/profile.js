@@ -133,11 +133,8 @@ function showPosts(user) {
                 <div class="post-content mb-2">${post.content}</div>
                 <div class="post-actions">
                     <a href="javascript:likePost(${post.id})">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22.559" height="19.744"
-                            viewBox="0 0 22.559 19.744">
-                            <path id="heart-regular"
-                                d="M20.2,33.4a6.637,6.637,0,0,0-8.918.661A6.632,6.632,0,0,0,2.362,33.4a6.666,6.666,0,0,0-.467,9.746l7.728,7.874a2.314,2.314,0,0,0,3.313,0l7.728-7.874A6.671,6.671,0,0,0,20.2,33.4Zm-1.04,8.261-7.728,7.874a.181.181,0,0,1-.3,0L3.4,41.663a4.544,4.544,0,0,1,.322-6.64,4.467,4.467,0,0,1,6.014.463l1.542,1.573,1.542-1.573a4.464,4.464,0,0,1,6.014-.467A4.563,4.563,0,0,1,19.157,41.663Z"
-                                transform="translate(0 -31.978)" fill="#63376b" />
+                        <svg class="fill like-btn" data-state="unliked" xmlns="http://www.w3.org/2000/svg" width="24.559" height="21.747" viewBox="0 0 24.559 21.747">
+                            <path id="Union_10" data-name="Union 10" d="M9.623,19.044,1.895,11.17a6.667,6.667,0,0,1,.467-9.746,6.632,6.632,0,0,1,8.918.661A6.636,6.636,0,0,1,20.2,1.424a6.671,6.671,0,0,1,.467,9.751l-7.728,7.874a2.315,2.315,0,0,1-3.313,0Z" transform="translate(1 1.003)"/>
                         </svg>
                     </a>
                     <a href="javascript:replyPost(${post.id})">
@@ -182,11 +179,8 @@ function prependToLikes(postData) {
                 <div class="post-content mb-2">${postData.Post.content}</div>
                 <div class="post-actions">
                     <a href="javascript:likePost(${postData.Post.id})">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22.559" height="19.744"
-                            viewBox="0 0 22.559 19.744">
-                            <path id="heart-regular"
-                                d="M20.2,33.4a6.637,6.637,0,0,0-8.918.661A6.632,6.632,0,0,0,2.362,33.4a6.666,6.666,0,0,0-.467,9.746l7.728,7.874a2.314,2.314,0,0,0,3.313,0l7.728-7.874A6.671,6.671,0,0,0,20.2,33.4Zm-1.04,8.261-7.728,7.874a.181.181,0,0,1-.3,0L3.4,41.663a4.544,4.544,0,0,1,.322-6.64,4.467,4.467,0,0,1,6.014.463l1.542,1.573,1.542-1.573a4.464,4.464,0,0,1,6.014-.467A4.563,4.563,0,0,1,19.157,41.663Z"
-                                transform="translate(0 -31.978)" fill="#63376b" />
+                        <svg class="fill like-btn" data-state="unliked" xmlns="http://www.w3.org/2000/svg" width="24.559" height="21.747" viewBox="0 0 24.559 21.747">
+                            <path id="Union_10" data-name="Union 10" d="M9.623,19.044,1.895,11.17a6.667,6.667,0,0,1,.467-9.746,6.632,6.632,0,0,1,8.918.661A6.636,6.636,0,0,1,20.2,1.424a6.671,6.671,0,0,1,.467,9.751l-7.728,7.874a2.315,2.315,0,0,1-3.313,0Z" transform="translate(1 1.003)"/>
                         </svg>
                     </a>
                     <a href="javascript:replyPost(${postData.Post.id})">

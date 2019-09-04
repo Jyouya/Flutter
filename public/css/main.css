@@ -249,3 +249,15 @@ nav { position: relative; }
 #to-top.show {
     opacity: 1;
 }
+
+.like-btn { stroke-width: 2px; }
+
+.like-btn[data-state = "liked"] {
+    fill: var(--bright-2);
+    stroke: var(--bright-2);
+}
+
+.like-btn[data-state = "unliked"] {
+    fill: none;
+    stroke: var(--bright-2);
+}
