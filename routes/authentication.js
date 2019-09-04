@@ -12,9 +12,13 @@ const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z]).{8,}/;
 
 module.exports = function (app, db) {
     app.post('/login', async function (req, res) {
-        const user = await authenticate(req.body.email, req.body.password);
-        await login(res, req.body.email, req.body.password);
-        res.send();
+        try {
+            const user = await authenticate(req.body.email, req.body.password);
+            await login(res, req.body.email, req.body.password);
+            res.send();
+        } catch (err) {
+            res.status(400).json({msg: err})
+        }
     });
 
     app.post('/api/users', async function (req, res) {

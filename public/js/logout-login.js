@@ -23,13 +23,7 @@ function displayButtons() {
 }
 
 function handleLogout() {
-    $.post("/logout").then(data => {
-        console.log(data.msg);
-        alert(data.msg);
-        window.location.href = "/login";
-    })
+    $.post("/logout").then(data => { window.location.href = "/login"; })
 }
 
-function handleLogin() {
-    window.location.href = "/login";
-}
+function handleLogin() { window.location.href = "/login"; }

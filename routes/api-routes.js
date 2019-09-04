@@ -32,7 +32,6 @@ module.exports = (app) => {
                 msg: `Hello ${username}`
             });
         } catch (err) {
-            console.log(err);
             res.status(403).json({ msg: err });
         }
     });

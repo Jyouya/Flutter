@@ -32,7 +32,6 @@ function autofillForms() {
     $("#bio-input").val(userData.bio);
 }
 
-
 // Putting to api
 $("form").submit(function(event) {
     event.preventDefault()
@@ -45,10 +44,7 @@ $("form").submit(function(event) {
     }).then(function() {
         window.location.href = "/profile"
     }).catch(function (data) {
-        console.log(data.responseJSON)
         data.responseJSON.errors.forEach(function (error) {
-            console.log(error.path);
-            console.log(error.message);
             const inputElement = $(`input[name="${error.path}"]`);
             inputElement.addClass("flash-input-class");
             setTimeout(() => {
