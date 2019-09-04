@@ -34,14 +34,17 @@ require('./routes/html-routes')(app);
 
 models.sequelize.sync().then(() => {
 
-  https.createServer({
-    key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
-  }, app).listen(PORT, function () {
-    console.log('Example app listening on port ' + PORT + '! Go to https://localhost:' + PORT)
-    app.emit("app_started")
-  });
+ // https.createServer({
+  //   key: fs.readFileSync('server.key'),
+  //   cert: fs.readFileSync('server.cert')
+  // }, app).listen(PORT, function () {
+  //   console.log('Example app listening on port ' + PORT + '! Go to https://localhost:' + PORT)
+  //   app.emit("app_started")
+  // });
 
+  app.listen (PORT, function (){
+    app.emit("app_started")
+  }) 
 });
 
 // Test code, don't deploy this
