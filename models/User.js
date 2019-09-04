@@ -12,14 +12,14 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             type: DataTypes.STRING,
             validate: {
-                is: emojiRegex
+                is: {args: emojiRegex, msg: "Emojis Only!"}
             }
         },
         email: {
             allowNull: false,
             type: DataTypes.STRING,
             validate: {
-                isEmail: true
+                isEmail: {args: true, msg: "Invalid email!"}
             }
         },
         bannerImg: {

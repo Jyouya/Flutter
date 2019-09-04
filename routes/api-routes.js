@@ -86,9 +86,9 @@ module.exports = (app) => {
                 avatarImg: user.avatarImg,
                 bannerImg: user.bannerImg
             },
-                {
-                    where: { id: req.userId },
-                }));
+            {
+                where: { id: req.userId },
+            }));
             res.end();
         } catch (err) {
             console.log("==========================", err);
