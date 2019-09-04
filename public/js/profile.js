@@ -4,6 +4,9 @@ let userId = null;
 let userData = null;
 let userLikes = null;
 
+// Gets user's profile data
+const me = $.get("/api/users/me");
+
 const postsContainer = $("#user-flutters");
 const likedPostsContainer = $("#user-likes");
 

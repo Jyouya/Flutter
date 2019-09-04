@@ -1,6 +1,8 @@
 const db = require('../models');
 const auth = require('./authentication');
 const verify = require('../verify');
+const getRecommendedFollowers = require('../functions/recommendFollowers');
+const Op = require('sequelize').Op;
 
 
 module.exports = (app) => {
@@ -8,11 +10,11 @@ module.exports = (app) => {
 
     require('./regex-route')(app);
 
-    app.post('/logout', async function(req, res) {
-        await db.Token.destroy({where: {id: req.sessionId}});
+    app.post('/logout', async function (req, res) {
+        await db.Token.destroy({ where: { id: req.sessionId } });
         await db.Token.deleteExpiredForUser(req.userId);
         res.clearCookie('jwt');
-        res.json({msg: 'Logged Out'});
+        res.json({ msg: 'Logged Out' });
     });
 
     // A test route for automated testing.  Don't change.
@@ -41,7 +43,10 @@ module.exports = (app) => {
         res.json(await db.User.findAll({
             where: { ...user && { id: user } },
             attributes: ["id", "username", "bannerImg", "avatarImg", "bio"],
-            include: [db.Post]
+            include: [{
+                model: db.Post,
+                attributes: ['content', 'id', 'createdAt', 'UserId'],
+            }]
         }));
     });
 
@@ -82,11 +87,11 @@ module.exports = (app) => {
                 avatarImg: user.avatarImg,
                 bannerImg: user.bannerImg
             },
-            {
-                where: { id: req.userId },
-            }));
+                {
+                    where: { id: req.userId },
+                }));
             res.end();
-        } catch(err) {
+        } catch (err) {
             console.log("==========================", err);
             res.json(err);
         }
@@ -104,11 +109,11 @@ module.exports = (app) => {
             postId: newPost.id
         });
     });
-    
+
     app.get('/api/likes/user/:id', async function (req, res) {
         const queriedUserId = req.params.id;
         const likedPosts = await db.Like.findAll({
-            where: {UserId: queriedUserId},
+            where: { UserId: queriedUserId },
             include: [{
                 model: db.Post,
                 include: db.User
@@ -129,14 +134,32 @@ module.exports = (app) => {
         const output = await db.Post.findAll({
             where: { ...user && { UserId: user } },
             limit: count,
-            include: [{
-                model: db.User,
-                attributes: ["username", "avatarImg", "id"]
-            }],
+            include: [
+                {
+                    model: db.User,
+                    attributes: ["username", "avatarImg", "id"]
+                },
+                {
+                    model: db.Like,
+                    where: { ...req.userId && { UserId: req.userId } },
+                    attributes: ['UserId'],
+                    required: false
+                }
+            ],
             order: [['cachedTrendingIndex', 'DESC']],
-            attributes: ['UserId', 'id', 'content', 'createdAt', 'replyId']
+            attributes: ['UserId', 'id', 'content', 'createdAt', 'replyId', 'cachedTrendingIndex']
         });
-        res.json(output);
+        // {cachedTrendingIndex, ...rest} = post;
+        const filteredOutput = output.map(post => {
+            const {cachedTrendingIndex, Likes, ...rest} = post.dataValues;
+            rest.Liked = Likes.length > 0;
+            return rest;
+        })
+
+        
+        // console.log(filteredOutput);
+
+        res.json(filteredOutput);
     });
 
     app.route('/api/likes/:post')
@@ -191,6 +214,20 @@ module.exports = (app) => {
                 ],
                 attributes: []
             }));
+        });
+
+    app.route('/api/follows/recommended')
+        .get(async function (req, res) {
+            const ids = await getRecommendedFollowers(req.userId);
+            const users = db.User.findAll({
+                where: {
+                    id: {
+                        [Op.in]: ids
+                    }
+                },
+                attributes: ['id', 'avatarImg', 'username']
+            });
+            res.json(await users);
         });
 
     app.post('/api/follows/:userId', async function (req, res) {
