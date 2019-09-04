@@ -40,7 +40,7 @@ module.exports = (app) => {
         const user = req.query.user;
         res.json(await db.User.findAll({
             where: { ...user && { id: user } },
-            attributes: ["id", "username", "email", "bannerImg", "avatarImg", "bio"],
+            attributes: ["id", "username", "bannerImg", "avatarImg", "bio"],
             include: [db.Post]
         }));
     });
