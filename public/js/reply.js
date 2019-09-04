@@ -8,6 +8,7 @@ class ReplyForm {
         }
         this.selector = selector;
         this.replyToNode = $(selector);
+        // const replyToNode = this.replyToNode;
         this.node = $(
             `<div class="new-post-container p-3 bd-bottom hover-fade">
                 <div class="avatar-container">
@@ -23,16 +24,15 @@ class ReplyForm {
         this.replyToNode.after(this.node);
         this.form = this.node.find('form');
 
-        // Arrow functions to keep this bound when we use them as callbacks
+        // Arrow function to keep this bound when we use them as callbacks
         this.close = () => {
             this.node.remove();
             delete ReplyForm.openForms[this.selector];
         };
+
         this.send = async (event) => {
             event.preventDefault();
-            console.log(this.form.serialize());
-            const formData = { ...$(this.form).serialize(), replyId: this.replyToNode.attr('data-post-id') };
-            console.log(formData);
+            const formData = this.form.serialize() + '&replyId=' + this.replyToNode.attr('data-post-id');
             await $.post('/api/posts', formData);
             // Refresh the page here?
             window.location.reload();

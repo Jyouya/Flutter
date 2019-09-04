@@ -4,7 +4,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const authorizer = require('./middleware/authorizer');
-const fs = require ('fs');
+const fs = require('fs');
 const app = express();
 
 const PORT = process.env.PORT || 8443;
@@ -35,13 +35,25 @@ require('./routes/html-routes')(app);
 models.sequelize.sync().then(() => {
 
   https.createServer({
-      key: fs.readFileSync('server.key'),
-      cert: fs.readFileSync('server.cert')
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
   }, app).listen(PORT, function () {
-      console.log('Example app listening on port ' + PORT + '! Go to https://localhost:' + PORT)
-      app.emit( "app_started" )
+    console.log('Example app listening on port ' + PORT + '! Go to https://localhost:' + PORT)
+    app.emit("app_started")
   });
 
 });
+
+// Test code, don't deploy this
+// new Promise(resolve => app.on("app_started", resolve)).then(() => {
+//   models.User.findOne({
+//     where: {
+//       username: '💞'
+//     }
+//   }).then(async user => {
+//     const getRecommendations = require('./functions/recommendFollowers')
+//     console.log(await getRecommendations(user.id));
+//   })
+// })
 
 module.exports = app; // for testing
