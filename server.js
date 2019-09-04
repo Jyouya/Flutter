@@ -53,7 +53,7 @@ models.sequelize.sync().then(() => {
 //   }).then(async user => {
 //     const getRecommendations = require('./functions/recommendFollowers')
 //     console.log(await getRecommendations(user.id));
-//   })
-// })
+//   });
+// });
 
 module.exports = app; // for testing

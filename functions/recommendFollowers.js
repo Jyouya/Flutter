@@ -10,9 +10,9 @@ module.exports = async function (userId) {
 
     // total holds the score for each user.  The users with the highest scores get recommended
     const total = {};
-    for (user of following) {
+    for (let user of following) {
         const followingFollowing = await getFollowing(user.id);
-        for (user of followingFollowing) {
+        for (let user of followingFollowing) {
             total[user.id] = (total[user.id] || 0) + 1;
         }
     }
@@ -46,8 +46,15 @@ module.exports = async function (userId) {
         }
     }
 
+    // Find the 10 users with the highest scores
+    // Exclude people we are already following
+    const recommendIds = Object.keys(total);
+    recommendIds.sort((a, b) => {
+        return total[a] - total[b];
+    })
+
     // console.log(total);
-    return total;
+    return recommendIds.filter(v => !following.with('id', v)).slice(0,10);
 }
 
 async function getFollowing(userId) {
@@ -87,4 +94,12 @@ async function getFollowers(userId) {
         ],
         attributes: []
     })).followers
+}
+
+Array.prototype.with = function (key, val) {
+    for (el of this) {
+        if (el[key] === val) {
+            return (el);
+        }
+    }
 }

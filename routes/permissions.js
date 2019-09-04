@@ -26,6 +26,7 @@ module.exports = function (authorizer) {
     
     authorizer.register('/api/likes/:', ['basic', 'mod', 'admin'], ['POST']);
 
+    authorizer.register('/api/follows/recommended', ['basic', 'mod', 'admin']);
     authorizer.register('/api/follows/:', ['basic', 'mod', 'admin'], ['POST']);
     authorizer.register('/api/follows', ['default'], ['GET']);
 

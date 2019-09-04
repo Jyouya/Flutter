@@ -164,6 +164,8 @@ module.exports = (sequelize, DataTypes) => {
       as: 'Replies',
       foreignKey: 'replyId'
     });
+
+    Post.hasMany(models.Like);
     // Post.hasMany(models.Like)
   }
   return Post;
