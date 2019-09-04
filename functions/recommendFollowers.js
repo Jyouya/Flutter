@@ -13,19 +13,45 @@ module.exports = async function (userId) {
     for (user of following) {
         const followingFollowing = await getFollowing(user.id);
         for (user of followingFollowing) {
-            total[user.id] = (total[user.id]|| 0) + 1;
+            total[user.id] = (total[user.id] || 0) + 1;
         }
     }
 
-    // Now find users who like the same posts as you.  
+    // Now find users who like the same posts as you. 
 
-    return total;
-
+    // First, get all of your likes
     const likes = await getLikes(userId);
+
+    // TODO ==================================================================
+    // The execution time on this will scale horribly.  
+    // This should be cached, and only calculated once per hour per user.
+    // If the user follows all 10 recommendations, it will recalculate early.
+    // =======================================================================
+
+    for (like of likes) { // Hide your shields!
+        // Find all other likes on the same post
+        otherLikes = await db.Like.findAll({
+            where: {
+                PostId: like.PostId
+            }
+        });
+
+        for (match of otherLikes) {
+            if (match.UserId != userId) {
+                // Multiply the weights of likes together, then scale it
+                // Scale by a power of two for faster multiplication
+                const weight = match.weight * like.weight * 34359738368; // 2 ** 35
+                total[match.UserId] = (total[match.UserId] || 0) + weight;
+            }
+        }
+    }
+
+    // console.log(total);
+    return total;
 }
 
 async function getFollowing(userId) {
-    return  db.User.findAll({
+    return db.User.findAll({
         include: [{
             model: db.User,
             as: 'Followers',
@@ -35,6 +61,14 @@ async function getFollowing(userId) {
             attributes: []
         }],
         attributes: ['id', 'username', 'avatarImg']
+    })
+}
+
+async function getLikes(userId) {
+    return db.Like.findAll({
+        where: {
+            UserId: userId
+        }
     })
 }
 
