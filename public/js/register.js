@@ -6,27 +6,30 @@ $("form").submit(function(event){
         method: "POST",
         data: newUser
     }).then(() => {
-        alert("Success");
         window.location.href = "/"
     }).catch (err => {
         console.log(err);
         const errorData = err.responseJSON.msg;
         if (errorData.errors) { // If there are an array of errors,
             errorData.errors.forEach(error => {
-                const inputElement = $(`input[name="${error.path}"]`);
-                const inputLabel = $(`label[for="${error.path}"]`);
-                inputElement.addClass("flash-input-class");
-                inputLabel.text(error.message);
-                inputLabel.css("color", "var(--bright-1)");
-                setTimeout(() => {
-                    inputElement.removeClass("flash-input-class");
-                }, 1000);
+                flashElement(error.path, error.message);
             })
-        } else {
-            console.log("Error: ", err.responseJSON.msg)
+        } else { // Must be password
+            flashElement("password", "Invalid password!");
         }
     })
 });
+
+function flashElement(path, msg) {
+    const inputElement = $(`input[name="${path}"]`);
+    const inputLabel = $(`label[for="${path}"]`);
+    inputElement.addClass("flash-input-class");
+    inputLabel.text(msg);
+    inputLabel.css("color", "var(--bright-1)");
+    setTimeout(() => {
+        inputElement.removeClass("flash-input-class");
+    }, 1000);
+}
 
 $("input").on("click", function(event) {
     const input = $(this);
