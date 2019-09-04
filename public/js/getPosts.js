@@ -27,7 +27,7 @@ async function showPosts() {
         let time = date.getHours();
         let timeOfDay = "AM";
 
-        if (time >= 12) {
+        if (time > 12) {
             time -= 12;
             timeOfDay = "PM";
         }
@@ -42,7 +42,7 @@ async function showPosts() {
             <div class="post-content pl-3">
                 <div class="poster-information">
                     <span class="text-bold">${post.User.username}</span>
-                    <span class="text-fine ml-1">${months[date.getMonth()]} ${date.getDate()} at ${time}:${date.getMinutes()} ${timeOfDay}</span>
+                    <span class="text-fine ml-1">${months[date.getMonth()]} ${date.getDate()} at ${time}:${(date.getMinutes()<10?'0':'') + date.getMinutes()} ${timeOfDay}</span>
                     <span class="dropdown text-fine cursor-pointer ml-1 p-1" style="margin-left: auto;"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="post-content mb-2">${post.content}</div>

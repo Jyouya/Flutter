@@ -46,7 +46,7 @@
                     </svg>
                     My Account
                 </a>
-                <a href="#" class="nav-item text-bold mb-3">
+                <a href="javascript:handleLogout()" id="logout-nav" class="nav-item text-bold mb-3" style="display: none;">
                     <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="17.624" height="13.431"
                         viewBox="0 0 17.624 13.431">
                         <path id="sign-out-alt-solid"
@@ -54,6 +54,15 @@
                             transform="translate(0 -63.979)" fill="#fff" />
                     </svg>
                     Log Out
+                </a>
+                <a href="javascript:handleLogin()" id="login-nav" class="nav-item text-bold mb-3" style="display: none;">
+                    <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="17.624" height="13.431"
+                        viewBox="0 0 17.624 13.431">
+                        <path id="sign-out-alt-solid"
+                            d="M17.38,71.288l-5.875,5.875a.841.841,0,0,1-1.434-.595V73.212H5.315a.837.837,0,0,1-.839-.839V69.015a.837.837,0,0,1,.839-.839h4.756V64.819a.841.841,0,0,1,1.434-.594L17.38,70.1A.846.846,0,0,1,17.38,71.288Zm-10.666,5.7v-1.4a.421.421,0,0,0-.42-.42H3.357a1.118,1.118,0,0,1-1.119-1.119V67.337a1.118,1.118,0,0,1,1.119-1.119H6.295a.421.421,0,0,0,.42-.42V64.4a.421.421,0,0,0-.42-.42H3.357A3.358,3.358,0,0,0,0,67.337v6.714a3.358,3.358,0,0,0,3.357,3.357H6.295A.421.421,0,0,0,6.714,76.988Z"
+                            transform="translate(0 -63.979)" fill="#fff" />
+                    </svg>
+                    Log In
                 </a>
                 <a href="#" class="nav-item text-bold mb-3">
                     <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="18.28" height="18.28"
@@ -68,7 +77,7 @@
         </nav>
         <main class="col-middle no-scrollbar">
             <div class="page-title text-title bd-bottom p-3">Home</div>
-            <div class="new-post-container p-3 bd-bottom hover-fade">
+            <div class="new-post-container p-3 bd-bottom hover-fade" style="display: none;">
                 <div class="avatar-container">
                     <img id="my-avatar" src="/" alt="" onerror="this.src='/images/blank-avatar.jpg';" />
                 </div>
@@ -116,6 +125,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="/js/reply.js"></script>
     <script src="/js/home.js"></script>
+    <script src="/js/logout-login.js"></script>
     <script src="/js/scroll.js"></script>
     <script src="/js/getPosts.js"></script>
     <script src="/js/whoToFollow.js"></script>

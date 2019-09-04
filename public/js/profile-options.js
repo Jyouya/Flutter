@@ -15,8 +15,9 @@ if (query.includes("id=")) {
 }
 
 function getUserInfo(id) {
-    return $.get("/api/users?id=" + id, data => {
-        userData = data[0];
+    return $.get("/api/users/me", data => {
+        console.log("ME data: ", data)
+        userData = data;
         autofillForms();
     });
 }

@@ -45,7 +45,7 @@ module.exports = (app) => {
         }));
     });
 
-    // Gets all users
+    // Gets signed in user
     app.get('/api/users/me', async function (req, res) {
         const user = req.userId;
         res.json(await db.User.findOne({
@@ -60,6 +60,15 @@ module.exports = (app) => {
                 }
             ],
         }));
+    });
+
+    // Checks login
+    app.get("/check-login", async function (req, res) {
+        if (req.userId) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
     });
 
     // Updates a users
@@ -94,6 +103,21 @@ module.exports = (app) => {
             msg: 'Post added successfully',
             postId: newPost.id
         });
+    });
+    
+    app.get('/api/likes/user/:id', async function (req, res) {
+        const queriedUserId = req.params.id;
+        const likedPosts = await db.Like.findAll({
+            where: {UserId: queriedUserId},
+            include: [{
+                model: db.Post,
+                include: db.User
+            },
+            {
+                model: db.User
+            }]
+        });
+        res.json(likedPosts);
     });
 
     // IF the user uses /api/posts?count=10, will send 10 back; otherwise 20
