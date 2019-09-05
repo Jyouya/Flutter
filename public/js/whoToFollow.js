@@ -39,14 +39,14 @@ $(document).ready(() => {
         console.log('suggested', suggestedUsers);
         let list = $(".list");
         suggestedUsers.forEach(user => {
-            followDiv.append(`<a href="/profile?id=${user.id}" class="p-2 bd-top" style="display: flex; align-items: center;">
+            followDiv.append(`<div class="p-2 bd-top" style="display: flex; align-items: center;">
             
-                <div class="avatar-container mr-2">
+                <a href="/profile?id=${user.id}" class="avatar-container mr-2">
                     <img src="${user.avatarImg || ''}" alt="${user.username}" onerror="this.src='/images/blank-avatar.jpg';" />
-                </div>
-                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${user.username}</div>
+                </a>
+                <a href="/profile?id=${user.id}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${user.username}</a>
                 <button class="button follow" data-user-id="${user.id}" style="margin-left: auto">Follow</button>
-            </a>`);
+            </div>`);
         })
     }
 });
