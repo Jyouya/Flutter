@@ -35,7 +35,7 @@ async function showPosts() {
         postsContainer.append(`
         <div class="post bd-bottom hover-fade p-3" data-post-id="${post.id}" id="post-${post.id}">
             <a href="/profile?id=${post.User.id}">
-                <div class="avatar-container">
+                <div class="avatar-container bd">
                     <img src="${post.User.avatarImg || ''}" alt="${post.User.username}" onerror="this.src='/images/blank-avatar.jpg';" />
                 </div>
             </a>
