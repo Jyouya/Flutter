@@ -128,8 +128,8 @@ module.exports = (app) => {
     // IF the user uses /api/posts?count=10, will send 10 back; otherwise 20
     app.get("/api/posts/", async function (req, res) {
         const count = parseInt(req.query.count) || 20;
-        console.log("================================================ " + count, typeof (count));
-        console.log(`User: "${req.query.user}"`);
+        // console.log("================================================ " + count, typeof (count));
+        // console.log(`User: "${req.query.user}"`);
         const user = req.query.user;
         const output = await db.Post.findAll({
             where: { ...user && { UserId: user } },
@@ -147,12 +147,14 @@ module.exports = (app) => {
                 }
             ],
             order: [['cachedTrendingIndex', 'DESC']],
-            attributes: ['UserId', 'id', 'content', 'createdAt', 'replyId', 'cachedTrendingIndex']
+            attributes: ['UserId', 'id', 'content', 'createdAt', 'replyId','trendingIndex', 'cachedTrendingIndex']
         });
         // {cachedTrendingIndex, ...rest} = post;
         const filteredOutput = output.map(post => {
-            const {cachedTrendingIndex, Likes, ...rest} = post.dataValues;
-            rest.Liked = Likes.length > 0;
+            post.trendingIndex; // Destructuring doesn't cause the getter to be invoked for some reason?
+            const {cachedTrendingIndex, trendingIndex, Likes, ...rest} = post.dataValues;
+            // console.log(trendingIndex);
+            // rest.Liked = Likes.length > 0;
             return rest;
         })
 

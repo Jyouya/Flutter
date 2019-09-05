@@ -33,8 +33,9 @@ module.exports = (sequelize, DataTypes) => {
         const p = - age * age * d;
         weight = k * Math.E ** p;
       }
+
+      this.update({weight: weight});
       return this.setDataValue('weight', weight);
-      // this.weight = weight;
       // Store the weight back in the db
       // Likes don't know when their weight expires, that's on their post.
     }
