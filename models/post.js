@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     replyId: {
       type: DataTypes.INTEGER
-    },
+    },  
     cacheExpiration: {
       type: DataTypes.DATE,
     },
@@ -190,7 +190,7 @@ module.exports = (sequelize, DataTypes) => {
     return 1 / (1 + Math.E ** p);
   }
 
-  const m = (-5 * 100 / Math.sqrt(Math.PI * 2 * (1000 * 60 * 60 * 6)**2)) / (1000 * 60 * 60) ** 2; // -5 likes per hour
+  const m = (-5 * 100 / Math.sqrt(Math.PI * 2 * (1000 * 60 * 60 * 6)**2)) / (1000 * 60 * 60); // -5 likes per hour
   var getAgeFactorB = function (age) {
     return m * age;
   }
