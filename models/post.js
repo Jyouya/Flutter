@@ -34,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
       get() {
         console.log('debugdebugdebug');
         // our cached value is too old, we need to recalculate it
-        // if (new Date() > (this.cacheExpiration || 0)) {
-          if (true) {
+        if (new Date() > (this.cacheExpiration || 0)) {
+          // if (true) {
           // Expiration interval is a sigmoid, so it expires often on new posts, and rarely on old posts.
           // Right now the interval is 90 seconds for new posts, and fifteen minutes for old posts.
           // Should recalculate to make it go up to a 6 hours for old posts.

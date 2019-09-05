@@ -153,7 +153,7 @@ module.exports = (app) => {
             post.trendingIndex; // Destructuring doesn't cause the getter to be invoked for some reason?
             const {cachedTrendingIndex, trendingIndex, Likes, ...rest} = post.dataValues;
             // console.log(trendingIndex);
-            // rest.Liked = Likes.length > 0;
+            rest.Liked = Likes.length > 0;
             return rest;
         })
 
