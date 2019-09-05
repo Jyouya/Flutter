@@ -59,7 +59,7 @@ describe('Endpoint Tests', function () {
                 .post('/api/users')
                 .send(newUser)
                 .end((err, res) => {
-                    res.should.have.status(200);
+                    res.should.have.status(400);
                     res.body.should.be.an('object');
                     res.body.should.have.property('msg').eql('An account with that username already exists');
                     done();
@@ -76,7 +76,7 @@ describe('Endpoint Tests', function () {
                 .post('/api/users')
                 .send(newUser)
                 .end((err, res) => {
-                    res.should.have.status(200);
+                    res.should.have.status(400);
                     res.body.should.be.an('object');
                     res.body.should.have.property('msg').eql('An account with that email already exists');
                     done();
