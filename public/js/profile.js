@@ -124,7 +124,7 @@ function showPosts(user) {
 
         postsContainer.prepend(`
         <div class="post bd-bottom hover-fade p-3">
-            <div class="avatar-container">
+            <div class="avatar-container bd">
                 <img src="${user.avatarImg}" alt="${user.username}" onerror="this.src='/images/blank-avatar.jpg';" />
             </div>
             <div class="post-content pl-3">
@@ -170,7 +170,7 @@ function prependToLikes(postData) {
 
     likedPostsContainer.prepend(`
         <div class="post bd-bottom hover-fade p-3">
-            <div class="avatar-container">
+            <div class="avatar-container bd">
                 <img src="${postData.Post.User.avatarImg}" alt="${postData.Post.User.username}" onerror="this.src='/images/blank-avatar.jpg';" />
             </div>
             <div class="post-content pl-3">

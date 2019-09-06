@@ -184,6 +184,7 @@ textarea { resize: none; }
     width: 100%;
     height: 100%;
     object-fit: cover;
+    background-color: var(--dark-1);
 }
 
 .avatar-container-lg {
@@ -198,6 +199,7 @@ textarea { resize: none; }
     width: 100%;
     height: 100%;
     object-fit: cover;
+    background-color: var(--dark-1);
 }
 
 .post {
